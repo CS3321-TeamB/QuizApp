@@ -1,0 +1,60 @@
+
+package quizapp;
+
+/**
+ * Card class holds to methods to create a new flash card
+ * including the front and back, along with a couple booleans
+ * to track successful studying and difficulty selected for the
+ * card.
+ */
+
+public class card {
+    private String front, back;
+    private boolean isHard = false;
+    private boolean pass = false;
+
+    /**
+     * getter for front of card
+     * @return the string on the front of the card
+     */
+    protected String getFront() {
+        return front;
+    }
+
+    /**
+     * getter for back of card
+     * @return the string on the back of the card
+     */
+    protected String getBack() {
+        return back;
+    }
+
+    /**
+     * getter for difficulty settting of card
+     * @return is true or false (true for is hard mode)
+     */
+    protected boolean getHard() {
+        return isHard;
+    }
+
+    /**
+     * getter for if the card has been successfully studyied
+     * @return pass as boolean, true for successfully passing
+     */
+    protected boolean getPass() {
+        return pass;
+    }
+
+    /**
+     * Constructor for creating a flash card
+     * @param front This will be the study material on the front of the card
+     * @param back This will be the study material on the back of the card
+     * Each card should be instantiated as a false pass and easy mode card
+     * by default.
+     */
+    protected card(String front, String back) {
+        this.front = front;
+        this.back = back;
+    }
+
+}
