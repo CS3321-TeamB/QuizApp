@@ -3,12 +3,38 @@
  */
 package quizapp;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import javafx.application.Application;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 
+public class App extends Application {
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        VBox root = new VBox();
+        Scene scene = new Scene(root, 500, 600);
+
+        HBox titleBox = new HBox();
+        titleBox.setPadding(new Insets(10, 0, 0, 0));
+        titleBox.setAlignment(Pos.BASELINE_CENTER);
+        titleBox.setStyle("-fx-font: normal bold 16px 'sansserif' ");
+        Text title = new Text("QuizApp");
+
+        titleBox.getChildren().addAll(title);
+
+        root.getChildren().addAll(titleBox);
+
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("QuizApp");
+        primaryStage.show();
+    }
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        Application.launch();
     }
 }
