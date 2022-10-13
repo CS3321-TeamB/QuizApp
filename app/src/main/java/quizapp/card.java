@@ -12,6 +12,17 @@ public class card {
     private String front, back;
     private boolean isHard = false;
     private boolean pass = false;
+    private boolean starred = false;   //in case we want to have users be able to increase priority of card
+    private int priority = 0;          //TODO 0 priority being default maybe 5 is the lowest priority or something like that
+
+
+    protected int getPriority(){return priority;}
+
+    /**
+     * getter for starred
+     * @return if starred, user wishes to study more
+     */
+    protected boolean getStarred() {return starred;}
 
     /**
      * getter for front of card
@@ -55,6 +66,11 @@ public class card {
     protected card(String front, String back) {
         this.front = front;
         this.back = back;
+
     }
 
+    public static void main(String[] args) {
+        card card = new card("this is front", "this is back");
+        System.out.println(card.getFront());
+    }
 }

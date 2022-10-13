@@ -1,20 +1,30 @@
 package quizapp;
 
+import java.util.ArrayList;
+import java.util.Collections;
+/**
+ * Course class will be used to hold each courses subjects
+ */
 public class course {
     protected String courseName;
+    protected ArrayList<cardStack> subjects;
 
 
-    public course(String courseName){
-        cardStack studyStack = new cardStack(courseName);
-
-        cardStack passStack = new cardStack(courseName);
+    /**
+     * Constructor for course, creates a new course with
+     * an empty list of subjects
+     * @param name
+     */
+    protected course(String name){
+        this.courseName = name;
+        subjects = new ArrayList<cardStack>();
     }
 
-    //TODO these empty methods and more
-    protected boolean addCard(card card){
+    protected boolean newSubject(String name){
+
+        cardStack subject = new cardStack(name);
+        subjects.add(subject);
         return true;
     }
-    protected card removeCard(card card){
-        return card;
-    }
+
 }
