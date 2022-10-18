@@ -13,7 +13,7 @@ import java.util.Collections;
 public class cardStack{
     private int totalCards = 0;
     private boolean passStack = false;
-    private String subject;
+    private String course;
     private ArrayList<card> cardStack;
 
     /*
@@ -26,8 +26,8 @@ public class cardStack{
     protected int getTotalCards(){
         return cardStack.size();
     }
-    protected String getSubject(){
-        return subject;
+    protected String getCourse(){
+        return course;
     }
     protected boolean getIsPass(){
         return passStack;
@@ -35,13 +35,13 @@ public class cardStack{
 
     /**
      * Default constructor, creates an empty stack of cards
-     * @param subject this is the name of the course for
+     * @param course this is the name of the course for
      * which the user wishes to study for, thus naming the stack
      * Each stack will default initialize with 0 cards and not
      * be a passed card stack.
      */
-    protected cardStack(String subject){
-        this.subject = subject;
+    protected cardStack(String course){
+        this.course = course;
         cardStack = new ArrayList<card>(STACKSIZE);
     }
 
@@ -52,7 +52,7 @@ public class cardStack{
      * @param passStack set to true
      */
     protected cardStack(String course, boolean passStack){
-        this.subject = subject;
+        this.course = course;
         passStack = true;
         this.passStack = passStack;
         cardStack = new ArrayList<card>(STACKSIZE);
