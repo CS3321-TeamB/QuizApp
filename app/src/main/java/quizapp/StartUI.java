@@ -21,6 +21,9 @@ import javafx.stage.Screen;
 public class StartUI extends Application {
     private int mainWidth = 500;
     private int mainHeight = 600;
+    private int topHeight = 130;
+    private int centerHeight = 100;
+    private int bottomHeight = 50;
     private int menuNumber;
     private Scene scene;
     private BorderPane root;
@@ -28,6 +31,7 @@ public class StartUI extends Application {
     private BorderPane menu2;
     private BorderPane menu3;
     private Stage stage;
+    private String subjectList[] = {"Computer Science", "Mathematics", "Physics", "Test1", "Test 2", "Test 3"};
 
     public StartUI() {
         menuNumber = 1;
@@ -39,6 +43,7 @@ public class StartUI extends Application {
     private void updateScene(Node node) {
         root.getChildren().clear();
         root.setCenter(node);
+        stage.setHeight(topHeight + centerHeight + bottomHeight);
     }
     @Override
     public void start(Stage stage) throws Exception {
@@ -93,6 +98,7 @@ public class StartUI extends Application {
         Border border = new Border(stroke);
         String topFrontColor = "#CCCCCC;";
         String topBackColor = "#5D5D5D;";
+        topHeight = 130;
 
         HBox topHBox = new HBox();
         VBox titleBox = new VBox();
@@ -100,15 +106,14 @@ public class StartUI extends Application {
 
         topHBox.setAlignment(Pos.BASELINE_CENTER);
         topHBox.setStyle("-fx-background-color:" + topBackColor);
-        titleBox.setPrefSize(mainWidth - (mainWidth * 0.2), mainHeight - (mainHeight * 0.8));
+        //titleBox.setPrefSize(mainWidth - (mainWidth * 0.2), mainHeight - (mainHeight * 0.8));
         titleBox.setBorder(border);
         titleBox.setAlignment(Pos.BASELINE_CENTER);
-        titleBox.setPrefHeight(130);
         titleBox.setMaxWidth(300);
         titleBox.setStyle("-fx-background-color: " + topFrontColor);
+        titleBox.setPadding(new Insets(0, 0, 10, 0));
         descBox.setAlignment(Pos.BASELINE_CENTER);
-        descBox.setSpacing(5);
-        descBox.setPadding(new Insets(20, 0, 0, 0));
+        descBox.setPadding(new Insets(10, 0, 10, 0));
 
         Text appName = new Text("QuizApp");
         appName.setFont(Font.font("Tahoma", 64));
@@ -128,6 +133,7 @@ public class StartUI extends Application {
         BorderStroke stroke = new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(2));
         Border border = new Border(stroke);
         String centerColor = "#B5B5B5;";
+        centerHeight = 150;
 
         HBox centerHBox = new HBox();
         VBox buttonBox = new VBox();
@@ -141,14 +147,14 @@ public class StartUI extends Application {
 
         buttonBox.setAlignment(Pos.BASELINE_CENTER);
         buttonBox.setPadding(new Insets(40, 0, 40, 0));
-        buttonBox.setSpacing(5);
-
+        buttonBox.setSpacing(10);
 
         Button startButton = new Button("Start New Study Session");
         Button loadButton = new Button("Load Saved Session");
         Button exitButton = new Button("Exit");
 
         startButton.setOnAction((ActionEvent startSession) -> {
+            buildMenu2();
             updateScene(menu2);
         });
 
@@ -171,6 +177,7 @@ public class StartUI extends Application {
         Border border = new Border(stroke);
         String bottomFrontColor = "#CCCCCC;";
         String bottomBackColor = "#5D5D5D;";
+        bottomHeight = 50;
 
         HBox bottomHBox = new HBox();
         VBox authorBox = new VBox();
@@ -196,10 +203,50 @@ public class StartUI extends Application {
     }
 
     private HBox addMenu2Center() {
+        BorderStroke stroke = new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(2));
+        Border border = new Border(stroke);
+        String centerColor = "#B5B5B5;";
+        centerHeight = 300;
 
-        HBox box = new HBox();
+        HBox centerHBox = new HBox();
+        VBox containerBox = new VBox();
+        VBox textBox = new VBox();
+        VBox buttonBox = new VBox();
 
-        return box;
+        //centerHBox.setPrefSize(mainWidth - (mainWidth * 0.2), mainHeight - (mainHeight * 0.8));
+        centerHBox.setBorder(border);
+        centerHBox.setAlignment(Pos.BASELINE_CENTER);
+        centerHBox.setStyle("-fx-background-color:" + centerColor);
+        centerHBox.setSpacing(30);
+
+        containerBox.setAlignment(Pos.BASELINE_CENTER);
+        containerBox.setSpacing(10);
+
+        textBox.setAlignment(Pos.BASELINE_CENTER);
+
+        Text subjectText = new Text("Please select a subject:");
+        ComboBox subjectDropDown = new ComboBox(FXCollections.observableArrayList(subjectList));
+        subjectDropDown.setPromptText("--Subject--");
+
+        buttonBox.setAlignment(Pos.BASELINE_CENTER);
+        buttonBox.setPadding(new Insets(40, 0, 40, 0));
+        buttonBox.setSpacing(10);
+
+        Button startButton = new Button("Start Studying");
+        Button backButton = new Button("Back");
+
+
+        backButton.setOnAction((ActionEvent exit) -> {
+            buildMenu1();
+            updateScene(menu1);
+        });
+
+        textBox.getChildren().addAll(subjectText, subjectDropDown);
+        buttonBox.getChildren().addAll(startButton, backButton);
+        containerBox.getChildren().addAll(textBox, buttonBox);
+        centerHBox.getChildren().addAll(containerBox);
+
+        return centerHBox;
     }
 
     private HBox addMenu3Center() {
