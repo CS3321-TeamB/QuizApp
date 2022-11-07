@@ -18,11 +18,14 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Screen;
 
+import javax.swing.*;
+
 public class StartUI extends Application {
     private int mainWidth = 500;
     private int mainHeight = 600;
     private int topHeight = 130;
     private int centerHeight = 100;
+    private int centerWidth = 100;
     private int bottomHeight = 50;
     private int menuNumber;
     private Scene scene;
@@ -44,6 +47,7 @@ public class StartUI extends Application {
         root.getChildren().clear();
         root.setCenter(node);
         stage.setHeight(topHeight + centerHeight + bottomHeight);
+        stage.setWidth(centerWidth);
     }
     @Override
     public void start(Stage stage) throws Exception {
@@ -88,9 +92,9 @@ public class StartUI extends Application {
     }
 
     private void buildMenu3() {
-        menu2.setTop(addMenu1Top());
-        menu2.setCenter(addMenu3Center());
-        menu2.setBottom(addMenu1Bottom());
+        menu3.setTop(addMenu1Top());
+        menu3.setCenter(addMenu3Center());
+        menu3.setBottom(addMenu1Bottom());
     }
 
     private HBox addMenu1Top() {
@@ -140,17 +144,17 @@ public class StartUI extends Application {
 
         centerHBox.setPrefSize(mainWidth - (mainWidth * 0.2), mainHeight - (mainHeight * 0.8));
         centerHBox.setBorder(border);
-        centerHBox.setAlignment(Pos.BASELINE_CENTER);
+        centerHBox.setAlignment(Pos.CENTER);
         centerHBox.setStyle("-fx-background-color:" + centerColor);
         //centerHBox.setPrefHeight(150);
         centerHBox.setSpacing(30);
 
-        buttonBox.setAlignment(Pos.BASELINE_CENTER);
-        buttonBox.setPadding(new Insets(40, 0, 40, 0));
+        buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setPadding(new Insets(10, 0, 10, 0));
         buttonBox.setSpacing(10);
 
-        Button startButton = new Button("Start New Study Session");
-        Button loadButton = new Button("Load Saved Session");
+        Button startButton = new Button("Start Studying");
+        Button addButton = new Button("Add Questions");
         Button exitButton = new Button("Exit");
 
         startButton.setOnAction((ActionEvent startSession) -> {
@@ -158,7 +162,8 @@ public class StartUI extends Application {
             updateScene(menu2);
         });
 
-        loadButton.setOnAction((ActionEvent loadSession) -> {
+        addButton.setOnAction((ActionEvent addQuestions) -> {
+            buildMenu3();
             updateScene(menu3);
         });
 
@@ -166,7 +171,7 @@ public class StartUI extends Application {
             Platform.exit();
         });
 
-        buttonBox.getChildren().addAll(startButton, loadButton, exitButton);
+        buttonBox.getChildren().addAll(startButton, addButton, exitButton);
         centerHBox.getChildren().addAll(buttonBox);
 
         return centerHBox;
@@ -211,7 +216,7 @@ public class StartUI extends Application {
         HBox centerHBox = new HBox();
         VBox containerBox = new VBox();
         VBox textBox = new VBox();
-        VBox buttonBox = new VBox();
+        HBox buttonBox = new HBox();
 
         //centerHBox.setPrefSize(mainWidth - (mainWidth * 0.2), mainHeight - (mainHeight * 0.8));
         centerHBox.setBorder(border);
@@ -232,7 +237,7 @@ public class StartUI extends Application {
         buttonBox.setPadding(new Insets(40, 0, 40, 0));
         buttonBox.setSpacing(10);
 
-        Button startButton = new Button("Start Studying");
+        Button startButton = new Button("Start");
         Button backButton = new Button("Back");
 
 
@@ -250,10 +255,71 @@ public class StartUI extends Application {
     }
 
     private HBox addMenu3Center() {
+        BorderStroke stroke = new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(2));
+        Border border = new Border(stroke);
+        String centerColor = "#B5B5B5;";
+        centerHeight = 400;
+        centerWidth = 500;
 
-        HBox box = new HBox();
+        HBox centerHBox = new HBox();
+        VBox containerBox = new VBox();
+        HBox subjectBox = new HBox();
+        HBox dataBox = new HBox();
+        VBox questionBox = new VBox();
+        VBox answerBox = new VBox();
+        HBox buttonBox = new HBox();
 
-        return box;
+        centerHBox.setBorder(border);
+        centerHBox.setAlignment(Pos.CENTER);
+        centerHBox.setStyle("-fx-background-color:" + centerColor);
+        centerHBox.setSpacing(10);
+        centerHBox.setPadding(new Insets(10, 0, 0, 0));
+
+        containerBox.setAlignment(Pos.CENTER);
+        containerBox.setSpacing(10);
+
+        subjectBox.setAlignment(Pos.CENTER);
+
+        Text subjectText = new Text("Add card to what subject:");
+        ComboBox subjectDropDown = new ComboBox(FXCollections.observableArrayList(subjectList));
+        subjectDropDown.setPromptText("--Subject--");
+
+        dataBox.setSpacing(15);
+        dataBox.setPadding(new Insets(10, 10, 0, 10));
+
+        TextArea questionField = new TextArea();
+        Text questionText = new Text("Question");
+        TextArea answerField = new TextArea();
+        Text answerText = new Text("Answer");
+
+        questionField.setPrefHeight(200);
+        answerField.setPrefHeight(200);
+
+        buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setPadding(new Insets(10, 0, 10, 0));
+        buttonBox.setSpacing(10);
+
+        Button startButton = new Button("Add Card");
+        Button backButton = new Button("Back");
+
+        startButton.setOnAction((ActionEvent addCard) -> {
+            //Code for adding to card object goes here.
+        });
+
+        backButton.setOnAction((ActionEvent exit) -> {
+            buildMenu1();
+            updateScene(menu1);
+        });
+
+        subjectBox.getChildren().addAll(subjectText, subjectDropDown);
+        questionBox.getChildren().addAll(questionText, questionField);
+        answerBox.getChildren().addAll(answerText, answerField);
+        dataBox.getChildren().addAll(questionBox, answerBox);
+        buttonBox.getChildren().addAll(startButton, backButton);
+        containerBox.getChildren().addAll(subjectBox, dataBox, buttonBox);
+        centerHBox.getChildren().addAll(containerBox);
+
+        return centerHBox;
     }
 
     private void popupError(String msg) {
