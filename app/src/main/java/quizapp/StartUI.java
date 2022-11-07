@@ -112,16 +112,14 @@ public class StartUI extends Application {
         VBox titleBox = new VBox();
         VBox descBox = new VBox();
 
-        topHBox.setAlignment(Pos.BASELINE_CENTER);
+        topHBox.setAlignment(Pos.CENTER);
         topHBox.setStyle("-fx-background-color:" + topBackColor);
-        //titleBox.setPrefSize(mainWidth - (mainWidth * 0.2), mainHeight - (mainHeight * 0.8));
         titleBox.setBorder(border);
-        titleBox.setAlignment(Pos.BASELINE_CENTER);
-        titleBox.setMaxWidth(300);
+        titleBox.setAlignment(Pos.CENTER);
         titleBox.setStyle("-fx-background-color: " + topFrontColor);
-        titleBox.setPadding(new Insets(0, 0, 10, 0));
-        descBox.setAlignment(Pos.BASELINE_CENTER);
-        descBox.setPadding(new Insets(10, 0, 10, 0));
+        titleBox.setPadding(new Insets(10, 10, 10, 10));
+        descBox.setAlignment(Pos.CENTER);
+        descBox.setPadding(new Insets(0, 0, 5, 0));
 
         Text appName = new Text("QuizApp");
         appName.setFont(Font.font("Tahoma", 64));
@@ -138,17 +136,16 @@ public class StartUI extends Application {
     }
 
     private HBox addMenu1Center() {
-        centerHeight = 150;
+        centerHeight = 250;
+        centerWidth = 400;
 
         HBox centerHBox = new HBox();
         VBox buttonBox = new VBox();
 
-        centerHBox.setPrefSize(mainWidth - (mainWidth * 0.2), mainHeight - (mainHeight * 0.8));
         centerHBox.setBorder(border);
         centerHBox.setAlignment(Pos.CENTER);
         centerHBox.setStyle("-fx-background-color:" + centerColor);
-        //centerHBox.setPrefHeight(150);
-        centerHBox.setSpacing(30);
+        centerHBox.setSpacing(10);
 
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setPadding(new Insets(10, 0, 10, 0));
@@ -205,7 +202,8 @@ public class StartUI extends Application {
     }
 
     private HBox addMenu2Center() {
-        centerHeight = 300;
+        centerHeight = 200;
+        centerWidth = 400;
 
         HBox centerHBox = new HBox();
         VBox containerBox = new VBox();
@@ -249,7 +247,7 @@ public class StartUI extends Application {
     }
 
     private HBox addMenu3Center() {
-        centerHeight = 400;
+        centerHeight = 250;
         centerWidth = 500;
 
         HBox centerHBox = new HBox();
