@@ -35,6 +35,14 @@ public class StartUI extends Application {
     private BorderPane menu3;
     private Stage stage;
     private String subjectList[] = {"Computer Science", "Mathematics", "Physics", "Test1", "Test 2", "Test 3"};
+    private BorderStroke stroke = new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(2));
+    private Border border = new Border(stroke);
+    private String topFrontColor = "#CCCCCC;";
+    private String topBackColor = "#5D5D5D;";
+    private String centerColor = "#B5B5B5;";
+    private String bottomFrontColor = "#CCCCCC;";
+    private String bottomBackColor = "#5D5D5D;";
+
 
     public StartUI() {
         menuNumber = 1;
@@ -86,22 +94,18 @@ public class StartUI extends Application {
     }
 
     private void buildMenu2() {
-        menu2.setTop(addMenu1Top());
+        menu2.setTop(clearTop());
         menu2.setCenter(addMenu2Center());
-        menu2.setBottom(addMenu1Bottom());
+        menu2.setBottom(clearBottom());
     }
 
     private void buildMenu3() {
-        menu3.setTop(addMenu1Top());
+        menu3.setTop(clearTop());
         menu3.setCenter(addMenu3Center());
-        menu3.setBottom(addMenu1Bottom());
+        menu3.setBottom(clearBottom());
     }
 
     private HBox addMenu1Top() {
-        BorderStroke stroke = new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(2));
-        Border border = new Border(stroke);
-        String topFrontColor = "#CCCCCC;";
-        String topBackColor = "#5D5D5D;";
         topHeight = 130;
 
         HBox topHBox = new HBox();
@@ -134,9 +138,6 @@ public class StartUI extends Application {
     }
 
     private HBox addMenu1Center() {
-        BorderStroke stroke = new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(2));
-        Border border = new Border(stroke);
-        String centerColor = "#B5B5B5;";
         centerHeight = 150;
 
         HBox centerHBox = new HBox();
@@ -178,10 +179,6 @@ public class StartUI extends Application {
     }
 
     private HBox addMenu1Bottom() {
-        BorderStroke stroke = new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(2));
-        Border border = new Border(stroke);
-        String bottomFrontColor = "#CCCCCC;";
-        String bottomBackColor = "#5D5D5D;";
         bottomHeight = 50;
 
         HBox bottomHBox = new HBox();
@@ -208,9 +205,6 @@ public class StartUI extends Application {
     }
 
     private HBox addMenu2Center() {
-        BorderStroke stroke = new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(2));
-        Border border = new Border(stroke);
-        String centerColor = "#B5B5B5;";
         centerHeight = 300;
 
         HBox centerHBox = new HBox();
@@ -241,7 +235,7 @@ public class StartUI extends Application {
         Button backButton = new Button("Back");
 
 
-        backButton.setOnAction((ActionEvent exit) -> {
+        backButton.setOnAction((ActionEvent back) -> {
             buildMenu1();
             updateScene(menu1);
         });
@@ -255,9 +249,6 @@ public class StartUI extends Application {
     }
 
     private HBox addMenu3Center() {
-        BorderStroke stroke = new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(2));
-        Border border = new Border(stroke);
-        String centerColor = "#B5B5B5;";
         centerHeight = 400;
         centerWidth = 500;
 
@@ -320,6 +311,28 @@ public class StartUI extends Application {
         centerHBox.getChildren().addAll(containerBox);
 
         return centerHBox;
+    }
+
+    private HBox clearTop() {
+        topHeight = 100;
+        HBox emptyBox = new HBox();
+
+        emptyBox.setStyle("-fx-background-color:" + topBackColor);
+        emptyBox.setBorder(border);
+        emptyBox.setMinHeight(50);
+
+        return emptyBox;
+    }
+
+    private HBox clearBottom() {
+        bottomHeight = 100;
+        HBox emptyBox = new HBox();
+
+        emptyBox.setStyle("-fx-background-color:" + bottomBackColor);
+        emptyBox.setBorder(border);
+        emptyBox.setMinHeight(50);
+
+        return emptyBox;
     }
 
     private void popupError(String msg) {
