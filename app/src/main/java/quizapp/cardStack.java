@@ -23,10 +23,11 @@ import java.nio.file.Paths;
  * another time.
  */
 
+//TODO add a drawcard method
 public class cardStack{
     private int totalCards = 0;
     private boolean passStack = false;
-    private String course;
+    private String subject;
     private ArrayList<card> cardStack;
 
     /*
@@ -36,11 +37,13 @@ public class cardStack{
      */
     private static final int STACKSIZE = 100;
 
+    //TODO documentation
+
     protected int getTotalCards(){
-        return cardStack.size();
+        return totalCards;
     }
-    protected String getCourse(){
-        return course;
+    protected String getSubject(){
+        return subject;
     }
     protected boolean getIsPass(){
         return passStack;
@@ -54,18 +57,18 @@ public class cardStack{
      * be a passed card stack.
      */
     protected cardStack(String course){
-        this.course = course;
+        this.subject = course;
         cardStack = new ArrayList<card>(STACKSIZE);
     }
 
     /**
      * constrcutor to allow system to create a passed stack of the
-     * same course name.
+     * same course name. May not be needed in future iteration
      * @param course course name
      * @param passStack set to true
      */
     protected cardStack(String course, boolean passStack){
-        this.course = course;
+        this.subject = course;
         passStack = true;
         this.passStack = passStack;
         cardStack = new ArrayList<card>(STACKSIZE);
@@ -78,6 +81,7 @@ public class cardStack{
      */
     protected void addCard(card card){
         cardStack.add(card);
+        totalCards +=1;
     }
 
     /**
@@ -88,7 +92,14 @@ public class cardStack{
      */
     protected card removeCard(card card){
         int index = cardStack.indexOf(card);
+        totalCards -= 1;
         return cardStack.remove(index);
+
+    }
+
+    //TODO finish this
+    protected card drawCard(int index){
+        return null;
     }
 
     /**
