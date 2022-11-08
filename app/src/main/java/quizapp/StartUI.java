@@ -14,11 +14,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import javafx.scene.paint.Color;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.Screen;
 
-import javax.swing.*;
+import java.util.ArrayList;
 
 public class StartUI extends Application {
     private int mainWidth = 500;
@@ -27,14 +26,13 @@ public class StartUI extends Application {
     private int centerHeight = 100;
     private int centerWidth = 100;
     private int bottomHeight = 50;
-    private int menuNumber;
     private Scene scene;
     private BorderPane root;
-    private BorderPane menu1;
-    private BorderPane menu2;
-    private BorderPane menu3;
+    private BorderPane mainMenu;
+    private BorderPane startMenu;
+    private BorderPane addMenu;
+    private BorderPane studyScreen;
     private Stage stage;
-    private String subjectList[] = {"Computer Science", "Mathematics", "Physics", "Test1", "Test 2", "Test 3"};
     private BorderStroke stroke = new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(2));
     private Border border = new Border(stroke);
     private String topFrontColor = "#CCCCCC;";
@@ -42,14 +40,15 @@ public class StartUI extends Application {
     private String centerColor = "#B5B5B5;";
     private String bottomFrontColor = "#CCCCCC;";
     private String bottomBackColor = "#5D5D5D;";
-
+    private String subjectList[] = {"Computer Science", "Mathematics", "Physics"};
+    private ArrayList cardStack = ;
 
     public StartUI() {
-        menuNumber = 1;
         root = new BorderPane();
-        menu1 = new BorderPane();
-        menu2 = new BorderPane();
-        menu3 = new BorderPane();
+        mainMenu = new BorderPane();
+        startMenu = new BorderPane();
+        addMenu = new BorderPane();
+        studyScreen = new BorderPane();
     }
     private void updateScene(Node node) {
         root.getChildren().clear();
@@ -62,15 +61,17 @@ public class StartUI extends Application {
         this.stage = stage;
         stage.setTitle("QuizApp");
 
-        buildMenu1();
-        updateScene(menu1);
+        buildMainMenu();
+        updateScene(mainMenu);
 
-        buildMenu2();
+        buildStartMenu();
 
-        buildMenu3();
+        buildAddQuestionsMenu();
+
+        buildStudyScreen();
 
         scene = new Scene(root);
-        //This is just to make it easier to close the app.
+        //This is just to make it easier to close the app with the escape key.
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ESCAPE)
                 Platform.exit();
@@ -82,30 +83,36 @@ public class StartUI extends Application {
         stage.setMinHeight(400);
         stage.setMinWidth(400);
         stage.show();
-        stage.setAlwaysOnTop(true);
+        stage.setAlwaysOnTop(true); //This is a hacky way to get the window to pop up.
         stage.setAlwaysOnTop(false);
 
     }
 
-    private void buildMenu1() {
-        menu1.setTop(addMenu1Top());
-        menu1.setCenter(addMenu1Center());
-        menu1.setBottom(addMenu1Bottom());
+    private void buildMainMenu() {
+        mainMenu.setTop(addTitleBox());
+        mainMenu.setCenter(addMainMenu());
+        mainMenu.setBottom(addAuthorBox());
     }
 
-    private void buildMenu2() {
-        menu2.setTop(clearTop());
-        menu2.setCenter(addMenu2Center());
-        menu2.setBottom(clearBottom());
+    private void buildStartMenu() {
+        startMenu.setTop(clearTop());
+        startMenu.setCenter(addStartMenu());
+        startMenu.setBottom(clearBottom());
     }
 
-    private void buildMenu3() {
-        menu3.setTop(clearTop());
-        menu3.setCenter(addMenu3Center());
-        menu3.setBottom(clearBottom());
+    private void buildAddQuestionsMenu() {
+        addMenu.setTop(clearTop());
+        addMenu.setCenter(addAddQuestionsMenu());
+        addMenu.setBottom(clearBottom());
     }
 
-    private HBox addMenu1Top() {
+    private void buildStudyScreen() {
+        studyScreen.setTop(clearTop());
+        studyScreen.setCenter(addStudyScreen());
+        studyScreen.setBottom(clearBottom());
+    }
+
+    private HBox addTitleBox() {
         topHeight = 130;
 
         HBox topHBox = new HBox();
@@ -122,7 +129,7 @@ public class StartUI extends Application {
         descBox.setPadding(new Insets(0, 0, 5, 0));
 
         Text appName = new Text("QuizApp");
-        appName.setFont(Font.font("Tahoma", 64));
+        appName.setFont(Font.font("Trebuchet MS", 64));
         appName.setFill(new Color(0.3, 0.5, 1, 1));
 
         Text description = new Text("A card based studying solution");
@@ -135,7 +142,7 @@ public class StartUI extends Application {
         return topHBox;
     }
 
-    private HBox addMenu1Center() {
+    private HBox addMainMenu() {
         centerHeight = 250;
         centerWidth = 400;
 
@@ -156,13 +163,13 @@ public class StartUI extends Application {
         Button exitButton = new Button("Exit");
 
         startButton.setOnAction((ActionEvent startSession) -> {
-            buildMenu2();
-            updateScene(menu2);
+            buildStartMenu();
+            updateScene(startMenu);
         });
 
         addButton.setOnAction((ActionEvent addQuestions) -> {
-            buildMenu3();
-            updateScene(menu3);
+            buildAddQuestionsMenu();
+            updateScene(addMenu);
         });
 
         exitButton.setOnAction((ActionEvent exit) -> {
@@ -175,7 +182,7 @@ public class StartUI extends Application {
         return centerHBox;
     }
 
-    private HBox addMenu1Bottom() {
+    private HBox addAuthorBox() {
         bottomHeight = 50;
 
         HBox bottomHBox = new HBox();
@@ -201,7 +208,7 @@ public class StartUI extends Application {
         return bottomHBox;
     }
 
-    private HBox addMenu2Center() {
+    private HBox addStartMenu() {
         centerHeight = 200;
         centerWidth = 400;
 
@@ -210,7 +217,6 @@ public class StartUI extends Application {
         VBox textBox = new VBox();
         HBox buttonBox = new HBox();
 
-        //centerHBox.setPrefSize(mainWidth - (mainWidth * 0.2), mainHeight - (mainHeight * 0.8));
         centerHBox.setBorder(border);
         centerHBox.setAlignment(Pos.BASELINE_CENTER);
         centerHBox.setStyle("-fx-background-color:" + centerColor);
@@ -232,10 +238,14 @@ public class StartUI extends Application {
         Button startButton = new Button("Start");
         Button backButton = new Button("Back");
 
+        startButton.setOnAction((ActionEvent start) -> {
+            buildStudyScreen();
+            updateScene(studyScreen);
+        });
 
         backButton.setOnAction((ActionEvent back) -> {
-            buildMenu1();
-            updateScene(menu1);
+            buildMainMenu();
+            updateScene(mainMenu);
         });
 
         textBox.getChildren().addAll(subjectText, subjectDropDown);
@@ -246,7 +256,7 @@ public class StartUI extends Application {
         return centerHBox;
     }
 
-    private HBox addMenu3Center() {
+    private HBox addAddQuestionsMenu() {
         centerHeight = 250;
         centerWidth = 500;
 
@@ -277,12 +287,16 @@ public class StartUI extends Application {
         dataBox.setPadding(new Insets(10, 10, 0, 10));
 
         TextArea questionField = new TextArea();
-        Text questionText = new Text("Question");
+        Text questionText = new Text("Question:");
         TextArea answerField = new TextArea();
-        Text answerText = new Text("Answer");
+        Text answerText = new Text("Answer:");
 
+        questionText.setFont(Font.font("Tahoma", 16));
+        answerText.setFont(Font.font("Tahoma", 16));
         questionField.setPrefHeight(200);
         answerField.setPrefHeight(200);
+        questionField.setBorder(border);
+        answerField.setBorder(border);
 
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setPadding(new Insets(10, 0, 10, 0));
@@ -295,9 +309,9 @@ public class StartUI extends Application {
             //Code for adding to card object goes here.
         });
 
-        backButton.setOnAction((ActionEvent exit) -> {
-            buildMenu1();
-            updateScene(menu1);
+        backButton.setOnAction((ActionEvent back) -> {
+            buildMainMenu();
+            updateScene(mainMenu);
         });
 
         subjectBox.getChildren().addAll(subjectText, subjectDropDown);
@@ -309,6 +323,43 @@ public class StartUI extends Application {
         centerHBox.getChildren().addAll(containerBox);
 
         return centerHBox;
+    }
+
+    private VBox addStudyScreen() {
+        centerHeight = 200;
+        centerWidth = 500;
+        VBox centerVBox = new VBox();
+        VBox cardBox = new VBox();
+        VBox cardDataBox = new VBox();
+        HBox buttonBox = new HBox();
+
+        centerVBox.setBorder(border);
+        centerVBox.setAlignment(Pos.CENTER);
+        centerVBox.setStyle("-fx-background-color:" + centerColor);
+        centerVBox.setSpacing(10);
+        centerVBox.setPadding(new Insets(10, 10, 10, 10));
+
+        cardBox.setPrefHeight(400);
+
+        cardDataBox.setAlignment(Pos.CENTER);
+
+        Button backButton = new Button("Back to Main Menu");
+
+        Text cardTypeText = new Text("Question");
+        TextArea cardData = new TextArea("Testing Answer");
+
+        backButton.setOnAction((ActionEvent back) -> {
+            if (popupYesNoBox("Are you sure you want to go back?")) {
+                buildMainMenu();
+                updateScene(mainMenu);
+            }
+        });
+
+        cardDataBox.getChildren().addAll(cardData);
+        cardBox.getChildren().addAll(cardTypeText, cardDataBox);
+        buttonBox.getChildren().addAll(backButton);
+        centerVBox.getChildren().addAll(cardBox, buttonBox);
+        return centerVBox;
     }
 
     private HBox clearTop() {
@@ -333,60 +384,19 @@ public class StartUI extends Application {
         return emptyBox;
     }
 
-    private void popupError(String msg) {
-        Dialog<ButtonType> box = new Dialog<>();
-        box.getDialogPane().getButtonTypes().add(new ButtonType("OK", ButtonBar.ButtonData.OK_DONE));
-        box.setTitle("Error");
-        box.setContentText(msg);
-        box.show();
-    }
 
-//    @Override
-//    public void start(Stage primaryStage) throws Exception {
-//        VBox root = new VBox(20);  // I set the spacing to 20 here just to make it cleaner looking.
-//        Scene scene = new Scene(root, 500, 600);
-//        BorderStroke stroke = new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(2));
-//        Border border = new Border(stroke);
-//
-//        VBox topBox = new VBox(20);
-//        topBox.setBorder(border);
-//        topBox.setAlignment(Pos.BASELINE_CENTER);
-//        topBox.setPrefHeight(100);
-//
-//        HBox titleBox = new HBox();
-//
-//        titleBox.setAlignment(Pos.BASELINE_CENTER);
-//        titleBox.setStyle("-fx-font: normal bold 24px 'sansserif' ");
-//        Text title = new Text("QuizApp");
-//        titleBox.getChildren().addAll(title);
-//
-//        HBox descBox = new HBox();
-//        descBox.setStyle("-fx-font: normal bold 12px 'sansserif' ");
-//        descBox.setAlignment(Pos.BASELINE_CENTER);
-//        Text description = new Text("A card based studying solution");
-//        descBox.getChildren().addAll(description);
-//
-//        topBox.getChildren().addAll(titleBox, descBox);
-//
-//        VBox centerBox = new VBox();
-//        Text subject = new Text("Pick a subject: ");
-//        centerBox.setAlignment(Pos.BASELINE_CENTER);
-//        centerBox.setSpacing(10);
-//        String subjectList[] = {"Computer Science", "Mathematics", "Physics"};
-//
-//        ComboBox subjectDropDown = new ComboBox(FXCollections.observableArrayList(subjectList));
-//        Button loadSession = new Button("Load Study Session");
-//        Button newSession = new Button("New Study Session");
-//        Button exitButton = new Button("Exit");
-//        centerBox.getChildren().addAll(subject, subjectDropDown, loadSession, newSession, exitButton);
-//
-//        VBox lowerBox = new VBox();
-//        lowerBox.setAlignment(Pos.BASELINE_CENTER);
-//
-//        root.getChildren().addAll(topBox, centerBox, lowerBox);
-//
-//        primaryStage.setScene(scene);
-//        primaryStage.setTitle("QuizApp");
-//        primaryStage.show();
-//    }
+    private boolean popupYesNoBox(String msg) {
+        Alert messageBox = new Alert(Alert.AlertType.NONE);
+        ButtonType yesButton = ButtonType.YES;
+        ButtonType noButton = ButtonType.NO;
+        messageBox.getDialogPane().getButtonTypes().addAll(yesButton, noButton);
+        messageBox.getDialogPane().setContentText(msg);
+        messageBox.getDialogPane().setMaxWidth(100);
+        messageBox.showAndWait();
+
+        if (messageBox.getResult() == ButtonType.YES) {
+            return true;
+        }
+        return false;
+    }
 }
