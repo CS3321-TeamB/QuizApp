@@ -70,5 +70,4 @@ public class course {
     protected void removeCard(String subject, card card){
         subjects.get(getIndex(subject)).removeCard(card);
     }
-
 }
