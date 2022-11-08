@@ -41,7 +41,7 @@ public class StartUI extends Application {
     private String bottomFrontColor = "#CCCCCC;";
     private String bottomBackColor = "#5D5D5D;";
     private String subjectList[] = {"Computer Science", "Mathematics", "Physics"};
-    private ArrayList cardStack = ;
+    //private ArrayList cardStack = ;
 
     public StartUI() {
         root = new BorderPane();
