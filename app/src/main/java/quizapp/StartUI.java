@@ -32,6 +32,7 @@ public class StartUI extends Application {
     private BorderPane startMenu;
     private BorderPane addMenu;
     private BorderPane studyScreen;
+    private BorderPane addCourse;
     private Stage stage;
     private BorderStroke stroke = new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(2));
     private Border border = new Border(stroke);
@@ -49,6 +50,7 @@ public class StartUI extends Application {
         startMenu = new BorderPane();
         addMenu = new BorderPane();
         studyScreen = new BorderPane();
+        addCourse = new BorderPane();
     }
     private void updateScene(Node node) {
         root.getChildren().clear();
@@ -69,6 +71,8 @@ public class StartUI extends Application {
         buildAddQuestionsMenu();
 
         buildStudyScreen();
+
+        buildAddCourse();
 
         scene = new Scene(root);
         //This is just to make it easier to close the app with the escape key.
@@ -110,6 +114,12 @@ public class StartUI extends Application {
         studyScreen.setTop(clearTop());
         studyScreen.setCenter(addStudyScreen());
         studyScreen.setBottom(clearBottom());
+    }
+
+    private void buildAddCourse() {
+        addCourse.setTop(clearTop());
+        addCourse.setCenter(addCourseMenu());
+        addCourse.setBottom(clearBottom());
     }
 
     private HBox addTitleBox() {
@@ -160,11 +170,17 @@ public class StartUI extends Application {
 
         Button startButton = new Button("Start Studying");
         Button addButton = new Button("Add Questions");
+        Button addCourseButton = new Button("Add Course");
         Button exitButton = new Button("Exit");
 
         startButton.setOnAction((ActionEvent startSession) -> {
             buildStartMenu();
             updateScene(startMenu);
+        });
+
+        addCourseButton.setOnAction((ActionEvent addCourseMenu) -> {
+            buildAddCourse();
+            updateScene(addCourse);
         });
 
         addButton.setOnAction((ActionEvent addQuestions) -> {
@@ -176,7 +192,7 @@ public class StartUI extends Application {
             Platform.exit();
         });
 
-        buttonBox.getChildren().addAll(startButton, addButton, exitButton);
+        buttonBox.getChildren().addAll(startButton, addCourseButton, addButton, exitButton);
         centerHBox.getChildren().addAll(buttonBox);
 
         return centerHBox;
@@ -359,6 +375,50 @@ public class StartUI extends Application {
         cardBox.getChildren().addAll(cardTypeText, cardDataBox);
         buttonBox.getChildren().addAll(backButton);
         centerVBox.getChildren().addAll(cardBox, buttonBox);
+        return centerVBox;
+    }
+
+    private VBox addCourseMenu() {
+        centerHeight = 200;
+        centerWidth = 500;
+        VBox centerVBox = new VBox();
+        HBox textBox = new HBox();
+        VBox textFieldBox = new VBox();
+        HBox buttonBox = new HBox();
+
+        centerVBox.setBorder(border);
+        centerVBox.setAlignment(Pos.CENTER);
+        centerVBox.setStyle("-fx-background-color:" + centerColor);
+        centerVBox.setSpacing(10);
+        centerVBox.setPadding(new Insets(5, 0, 5, 0));
+        buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setSpacing(10);
+
+        textBox.setAlignment(Pos.CENTER);
+        textFieldBox.setAlignment(Pos.CENTER);
+        textFieldBox.setSpacing(10);
+        textFieldBox.setPadding(new Insets(0, 10, 0, 10));
+
+        Text addCourseText = new Text("Enter the New Course Name:");
+        TextField addCourseTextField = new TextField();
+        Text currentCoursesText = new Text("Current Courses:");
+        TextArea currentCoursesArea = new TextArea();
+
+        addCourseTextField.setMaxWidth(200);
+        currentCoursesArea.setEditable(false);
+
+        Button addCourseButton = new Button("Add Course");
+        Button backButton = new Button("Back");
+
+        backButton.setOnAction((ActionEvent back) -> {
+            buildMainMenu();
+            updateScene(mainMenu);
+        });
+
+        textBox.getChildren().addAll(addCourseText);
+        textFieldBox.getChildren().addAll(addCourseTextField, currentCoursesText, currentCoursesArea);
+        buttonBox.getChildren().addAll(addCourseButton, backButton);
+        centerVBox.getChildren().addAll(textBox, textFieldBox, buttonBox);
         return centerVBox;
     }
 
