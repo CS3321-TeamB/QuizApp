@@ -243,9 +243,9 @@ public class StartUI extends Application {
 
         textBox.setAlignment(Pos.BASELINE_CENTER);
 
-        Text subjectText = new Text("Please select a subject:");
+        Text subjectText = new Text("Please select a course:");
         ComboBox subjectDropDown = new ComboBox(FXCollections.observableArrayList(subjectList));
-        subjectDropDown.setPromptText("--Subject--");
+        subjectDropDown.setPromptText("--Course--");
 
         buttonBox.setAlignment(Pos.BASELINE_CENTER);
         buttonBox.setPadding(new Insets(40, 0, 40, 0));
@@ -295,9 +295,9 @@ public class StartUI extends Application {
 
         subjectBox.setAlignment(Pos.CENTER);
 
-        Text subjectText = new Text("Add card to what subject:");
+        Text subjectText = new Text("Add card to what course:");
         ComboBox subjectDropDown = new ComboBox(FXCollections.observableArrayList(subjectList));
-        subjectDropDown.setPromptText("--Subject--");
+        subjectDropDown.setPromptText("--Course--");
 
         dataBox.setSpacing(15);
         dataBox.setPadding(new Insets(10, 10, 0, 10));
@@ -398,8 +398,9 @@ public class StartUI extends Application {
         textFieldBox.setAlignment(Pos.CENTER);
         textFieldBox.setSpacing(10);
         textFieldBox.setPadding(new Insets(0, 10, 0, 10));
+        textFieldBox.setMaxWidth(500);
 
-        Text addCourseText = new Text("Enter the New Course Name:");
+        Text addCourseText = new Text("Enter the new course name:");
         TextField addCourseTextField = new TextField();
         Text currentCoursesText = new Text("Current Courses:");
         TextArea currentCoursesArea = new TextArea();
@@ -413,6 +414,10 @@ public class StartUI extends Application {
         backButton.setOnAction((ActionEvent back) -> {
             buildMainMenu();
             updateScene(mainMenu);
+        });
+
+        addCourseButton.setOnAction((ActionEvent addCourse) -> {
+            // Code for adding the new course goes here
         });
 
         textBox.getChildren().addAll(addCourseText);
