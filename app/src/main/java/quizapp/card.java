@@ -16,7 +16,19 @@ public class card {
     private int priority = 0;          //TODO 0 priority being default maybe 5 is the lowest priority or something like that
 
 
-    protected int getPriority(){return priority;}
+    //TODO finish setters and getters
+
+    protected void setStarred(boolean bool){
+        this.starred = bool;
+    }
+
+    protected void setPriority(int priority){
+        this.priority = priority;
+    }
+
+    protected int getPriority(){
+        return priority;
+    }
 
     /**
      * getter for starred
@@ -57,6 +69,24 @@ public class card {
     }
 
     /**
+     * Editing the front of the flashcard in case the user
+     * wishes change the front of the card
+     * @param newFront
+     */
+    protected void setFront(String newFront){
+        this.front = newFront;
+    }
+
+    /**
+     * similar to setFront, method used to edit the back of the
+     * card
+     * @param newBack
+     */
+    protected void setBack(String newBack){
+        this.back = newBack;
+    }
+
+    /**
      * Constructor for creating a flash card
      * @param front This will be the study material on the front of the card
      * @param back This will be the study material on the back of the card
@@ -67,10 +97,5 @@ public class card {
         this.front = front;
         this.back = back;
 
-    }
-
-    public static void main(String[] args) {
-        card card = new card("this is front", "this is back");
-        System.out.println(card.getFront());
     }
 }
