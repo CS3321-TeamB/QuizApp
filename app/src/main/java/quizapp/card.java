@@ -18,7 +18,17 @@ public class card {
 
     //TODO finish setters and getters
 
-    protected int getPriority(){return priority;}
+    protected void setStarred(boolean bool){
+        this.starred = bool;
+    }
+
+    protected void setPriority(int priority){
+        this.priority = priority;
+    }
+
+    protected int getPriority(){
+        return priority;
+    }
 
     /**
      * getter for starred

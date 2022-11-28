@@ -13,7 +13,7 @@ import java.util.Collections;
 
 public class course {
     protected String courseName;
-    protected ArrayList<cardStack> subjects;
+    protected ArrayList<flashDeck> subjects;
 
 
     /**
@@ -23,7 +23,7 @@ public class course {
      */
     protected course(String name){
         this.courseName = name;
-        subjects = new ArrayList<cardStack>();
+        subjects = new ArrayList<flashDeck>();
     }
 
     /**
@@ -33,7 +33,7 @@ public class course {
      * @param name String name of subject
      */
     protected void newSubject(String name){
-        cardStack subject = new cardStack(name);
+        flashDeck subject = new flashDeck(name);
         subjects.add(subject);
     }
 
