@@ -17,6 +17,13 @@ public class course {
 
 
 
+    protected static flashDeck getDeck(String subject){
+        for(int i = 0; i < subjects.size(); i++){
+            if subjects[i]
+        }
+        return
+    }
+
     /**
      * Constructor for course, creates a new course with
      * an empty list of subjects
