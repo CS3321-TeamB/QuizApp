@@ -322,6 +322,15 @@ public class StartUI extends Application {
         Button backButton = new Button("Back");
 
         startButton.setOnAction((ActionEvent addCard) -> {
+            if(course.subjects.size() != 0){
+
+                if (questionText.getText() != null && answerText.getText() != null){
+                    String front = questionText.getText();
+                    String back = answerText.getText();
+                    card card = new card(front, back);
+                    course.addCard(subjectDropDown.getPromptText(), card);
+                }
+            }
             //Code for adding to card object goes here.
         });
 
@@ -417,6 +426,9 @@ public class StartUI extends Application {
         });
 
         addCourseButton.setOnAction((ActionEvent addCourse) -> {
+            if(addCourseTextField.getText() != null){
+                course course = new course(addCourseTextField.getText());
+            }
             // Code for adding the new course goes here
         });
 
