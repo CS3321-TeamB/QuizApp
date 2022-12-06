@@ -10,10 +10,10 @@ import java.util.Collections;
  * another time.
  */
 
-public class cardStack{
+public class flashDeck{
     private int totalCards = 0;
     private boolean passStack = false;
-    private String course;
+    private String subject;
     private ArrayList<card> cardStack;
 
     /*
@@ -23,11 +23,13 @@ public class cardStack{
      */
     private static final int STACKSIZE = 100;
 
+    //TODO documentation
+
     protected int getTotalCards(){
-        return cardStack.size();
+        return totalCards;
     }
-    protected String getCourse(){
-        return course;
+    protected String getSubject(){
+        return subject;
     }
     protected boolean getIsPass(){
         return passStack;
@@ -40,22 +42,26 @@ public class cardStack{
      * Each stack will default initialize with 0 cards and not
      * be a passed card stack.
      */
-    protected cardStack(String course){
-        this.course = course;
-        cardStack = new ArrayList<card>(STACKSIZE);
+    protected flashDeck(String course){
+        this.subject = course;
+        cardStack = new ArrayList<>(STACKSIZE);
     }
+
+
+    /*may not need this method
+     */
 
     /**
      * constrcutor to allow system to create a passed stack of the
-     * same course name.
+     * same course name. May not be needed in future iteration
      * @param course course name
      * @param passStack set to true
      */
-    protected cardStack(String course, boolean passStack){
-        this.course = course;
+    protected flashDeck(String course, boolean passStack){
+        this.subject = course;
         passStack = true;
         this.passStack = passStack;
-        cardStack = new ArrayList<card>(STACKSIZE);
+        cardStack = new ArrayList<>(STACKSIZE);
     }
 
     /**
@@ -65,6 +71,7 @@ public class cardStack{
      */
     protected void addCard(card card){
         cardStack.add(card);
+        totalCards +=1;
     }
 
     /**
@@ -75,7 +82,20 @@ public class cardStack{
      */
     protected card removeCard(card card){
         int index = cardStack.indexOf(card);
+        totalCards -= 1;
         return cardStack.remove(index);
+
+    }
+
+    /**
+     * Draw card. returns the card at the index supplied
+     * This does not remove the card from the deck, it only
+     * returns the card so that it can be displayed to the user
+     * @param index the index for getting a card from the deck
+     * @return a card
+     */
+    protected card drawCard(int index){
+        return cardStack.get(index);
     }
 
     /**
