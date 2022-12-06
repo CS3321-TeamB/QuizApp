@@ -13,8 +13,16 @@ import java.util.Collections;
 
 public class course {
     protected String courseName;
-    protected ArrayList<cardStack> subjects;
+    protected static ArrayList<flashDeck> subjects;
 
+
+
+    protected static flashDeck getDeck(String subject){
+        for(int i = 0; i < subjects.size(); i++){
+            if subjects[i]
+        }
+        return
+    }
 
     /**
      * Constructor for course, creates a new course with
@@ -23,7 +31,7 @@ public class course {
      */
     protected course(String name){
         this.courseName = name;
-        subjects = new ArrayList<cardStack>();
+        subjects = new ArrayList<flashDeck>();
     }
 
     /**
@@ -33,7 +41,7 @@ public class course {
      * @param name String name of subject
      */
     protected void newSubject(String name){
-        cardStack subject = new cardStack(name);
+        flashDeck subject = new flashDeck(name);
         subjects.add(subject);
     }
 
@@ -44,7 +52,7 @@ public class course {
      * @param subject String of subject name of desired subject
      * @return
      */
-    protected int getIndex(String subject){
+    protected static int getIndex(String subject){
         for(int i = 0; i < subjects.size(); i++){
             if(subjects.get(i).getSubject().equals(subject)){
                 return 1;
@@ -58,7 +66,7 @@ public class course {
      * @param subject string of subject name
      * @param card card object for adding to the list
      */
-    protected void addCard(String subject, card card){
+    protected static void addCard(String subject, card card){
         subjects.get(getIndex(subject)).addCard(card);
     }
 
@@ -70,5 +78,4 @@ public class course {
     protected void removeCard(String subject, card card){
         subjects.get(getIndex(subject)).removeCard(card);
     }
-
 }

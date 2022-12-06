@@ -23,8 +23,7 @@ import java.nio.file.Paths;
  * another time.
  */
 
-//TODO add a drawcard method
-public class cardStack{
+public class flashDeck{
     private int totalCards = 0;
     private boolean passStack = false;
     private String subject;
@@ -56,10 +55,14 @@ public class cardStack{
      * Each stack will default initialize with 0 cards and not
      * be a passed card stack.
      */
-    protected cardStack(String course){
+    protected flashDeck(String course){
         this.subject = course;
-        cardStack = new ArrayList<card>(STACKSIZE);
+        cardStack = new ArrayList<>(STACKSIZE);
     }
+
+
+    /*may not need this method
+     */
 
     /**
      * constrcutor to allow system to create a passed stack of the
@@ -67,11 +70,11 @@ public class cardStack{
      * @param course course name
      * @param passStack set to true
      */
-    protected cardStack(String course, boolean passStack){
+    protected flashDeck(String course, boolean passStack){
         this.subject = course;
         passStack = true;
         this.passStack = passStack;
-        cardStack = new ArrayList<card>(STACKSIZE);
+        cardStack = new ArrayList<>(STACKSIZE);
     }
 
     /**
@@ -97,9 +100,15 @@ public class cardStack{
 
     }
 
-    //TODO finish this
+    /**
+     * Draw card. returns the card at the index supplied
+     * This does not remove the card from the deck, it only
+     * returns the card so that it can be displayed to the user
+     * @param index the index for getting a card from the deck
+     * @return a card
+     */
     protected card drawCard(int index){
-        return null;
+        return cardStack.get(index);
     }
 
     /**
