@@ -263,8 +263,13 @@ public class StartUI extends Application {
 
         startButton.setOnAction((ActionEvent start) -> {
             currentCourse = (String) subjectDropDown.getValue();
-            buildStudyScreen();
-            updateScene(studyScreen);
+            if (system.getIndex((String) subjectDropDown.getValue()) <= 0) {
+                popupOkBox("There are no cards for that subject!");
+            }
+            else {
+                buildStudyScreen();
+                updateScene(studyScreen);
+            }
         });
 
         backButton.setOnAction((ActionEvent back) -> {
@@ -326,10 +331,10 @@ public class StartUI extends Application {
         buttonBox.setPadding(new Insets(10, 0, 10, 0));
         buttonBox.setSpacing(10);
 
-        Button startButton = new Button("Add Card");
+        Button addCardButton = new Button("Add Card");
         Button backButton = new Button("Back");
 
-        startButton.setOnAction((ActionEvent addCard) -> {
+        addCardButton.setOnAction((ActionEvent addCard) -> {
 
             if (questionText.getText() != null && answerText.getText() != null) {
                 String front = questionField.getText();
@@ -338,8 +343,7 @@ public class StartUI extends Application {
                 system.addToDeck((String) subjectDropDown.getValue(), system.createCard(front, back));
                 questionField.clear();
                 answerField.clear();
-                questionField.setText("Card added to the " + subjectDropDown.getValue() + " deck.");
-
+                questionField.setPromptText("Card added to the " + subjectDropDown.getValue() + " deck.");
             }
         });
 
@@ -352,7 +356,7 @@ public class StartUI extends Application {
         questionBox.getChildren().addAll(questionText, questionField);
         answerBox.getChildren().addAll(answerText, answerField);
         dataBox.getChildren().addAll(questionBox, answerBox);
-        buttonBox.getChildren().addAll(startButton, backButton);
+        buttonBox.getChildren().addAll(addCardButton, backButton);
         containerBox.getChildren().addAll(subjectBox, dataBox, buttonBox);
         centerHBox.getChildren().addAll(containerBox);
 
@@ -362,6 +366,7 @@ public class StartUI extends Application {
     private VBox addStudyScreen() {
         centerHeight = 200;
         centerWidth = 500;
+        deckIterator = system.deckIterator;
         VBox centerVBox = new VBox();
         VBox cardBox = new VBox();
         VBox cardDataBox = new VBox();
@@ -383,7 +388,7 @@ public class StartUI extends Application {
 
         Text cardTypeText = new Text("Question");
         TextArea cardData = new TextArea("Testing Answer");
-        deckIterator = system.deckIterator;
+
         if(subjectList.size() !=0) {
             card card = system.getCourse(currentCourse).questions.drawCard(deckIterator);
            cardData.setText(card.getFront());
@@ -401,27 +406,28 @@ public class StartUI extends Application {
 
         removeCardButton.setOnAction((ActionEvent removeCard) -> {
             if (popupYesNoBox("Are you sure you want to remove the card?")) {
-                //Add code for removing card.
+                system.deleteCard(currentCourse, deckIterator);
             }
         });
-
 
         showAnswerButton.setOnAction((ActionEvent showAnswer) -> {
             if(answerButtonClicked == 0) {
                 cardData.setText(card.getBack());
                 answerButtonClicked +=1;
                 cardTypeText.setText("Answer");
+                showAnswerButton.setText("Show Question");
             }
             else if(answerButtonClicked ==1) {
                 cardData.setText(card.getFront());
                 answerButtonClicked -= 1;
                 cardTypeText.setText("Question");
+                showAnswerButton.setText("Show Answer");
             }
         });
 
         cardDataBox.getChildren().addAll(cardData);
         cardBox.getChildren().addAll(cardTypeText, cardDataBox);
-        buttonBox.getChildren().addAll(backButton, removeCardButton, showAnswerButton);
+        buttonBox.getChildren().addAll(backButton, showAnswerButton, removeCardButton);
         centerVBox.getChildren().addAll(cardBox, buttonBox);
         return centerVBox;
     }
@@ -456,6 +462,9 @@ public class StartUI extends Application {
         addCourseTextField.setMaxWidth(200);
         currentCoursesArea.setEditable(false);
 
+        // Populates the current courses text area.
+        currentCoursesArea.setText(outputCourseNames());
+
         Button addCourseButton = new Button("Add Course");
         Button backButton = new Button("Back");
 
@@ -468,7 +477,9 @@ public class StartUI extends Application {
             if(addCourseTextField.getText() != null){
                 course course = system.createCourse(addCourseTextField.getText());            }
             subjectList.add(course.courseName);
-            currentCoursesArea.setText(String.valueOf(subjectList));
+            addCourseTextField.clear();
+            currentCoursesArea.setText(outputCourseNames());
+            addCourseTextField.requestFocus();
         });
 
         textBox.getChildren().addAll(addCourseText);
@@ -476,6 +487,21 @@ public class StartUI extends Application {
         buttonBox.getChildren().addAll(addCourseButton, backButton);
         centerVBox.getChildren().addAll(textBox, textFieldBox, buttonBox);
         return centerVBox;
+    }
+
+    private String outputCourseNames() {
+        String currCourses = "\0";
+        if (!subjectList.isEmpty()) {
+            for (String courseName : subjectList) {
+                if (currCourses.equals("\0")) {
+                    currCourses = courseName + "\n";
+                }
+                else {
+                    currCourses = currCourses + courseName + "\n";
+                }
+            }
+        }
+        return currCourses;
     }
 
     private HBox clearTop() {
@@ -514,5 +540,14 @@ public class StartUI extends Application {
             return true;
         }
         return false;
+    }
+
+    private void popupOkBox(String msg) {
+        Alert messageBox = new Alert(Alert.AlertType.NONE);
+        ButtonType okButton = ButtonType.OK;
+        messageBox.getDialogPane().getButtonTypes().addAll(okButton);
+        messageBox.getDialogPane().setContentText(msg);
+        messageBox.getDialogPane().setMaxWidth(150);
+        messageBox.showAndWait();
     }
 }
