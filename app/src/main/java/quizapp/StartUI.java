@@ -367,10 +367,15 @@ public class StartUI extends Application {
         centerHeight = 200;
         centerWidth = 500;
         deckIterator = system.deckIterator;
+        int totalCards = 0;
         VBox centerVBox = new VBox();
         VBox cardBox = new VBox();
+        HBox cardTextBox = new HBox();
+        Region fillerBox = new Region();
         VBox cardDataBox = new VBox();
-        HBox buttonBox = new HBox();
+        VBox buttonBox = new VBox();
+        HBox upperButtonBox = new HBox();
+        HBox lowerButtonBox = new HBox();
 
         centerVBox.setBorder(border);
         centerVBox.setAlignment(Pos.CENTER);
@@ -379,19 +384,29 @@ public class StartUI extends Application {
         centerVBox.setPadding(new Insets(10, 10, 10, 10));
 
         cardBox.setPrefHeight(400);
-
+        fillerBox.setMinWidth(10);
         cardDataBox.setAlignment(Pos.CENTER);
+
+        buttonBox.setAlignment(Pos.CENTER);
+        upperButtonBox.setAlignment(Pos.CENTER);
+        lowerButtonBox.setAlignment(Pos.CENTER);
 
         Button backButton = new Button("Back to Main Menu");
         Button removeCardButton = new Button("Remove Card");
         Button showAnswerButton = new Button("Show Answer");
+        Button nextCardButton = new Button("Next Question");
+        Button prevCardButton = new Button("Previous Question");
 
         Text cardTypeText = new Text("Question");
-        TextArea cardData = new TextArea("Testing Answer");
+        Text cardAmountText = new Text();
+        TextArea cardData = new TextArea();
+        cardData.setEditable(false);
 
         if(subjectList.size() !=0) {
             card card = system.getCourse(currentCourse).questions.drawCard(deckIterator);
            cardData.setText(card.getFront());
+           totalCards = system.getCourse(currentCourse).questions.getTotalCards();
+           cardAmountText.setText((deckIterator + 1) + "/" + totalCards);
         }else
             cardData.setText("No deck chosen");
         buttonBox.setAlignment(Pos.CENTER);
@@ -407,6 +422,13 @@ public class StartUI extends Application {
         removeCardButton.setOnAction((ActionEvent removeCard) -> {
             if (popupYesNoBox("Are you sure you want to remove the card?")) {
                 system.deleteCard(currentCourse, deckIterator);
+                if (system.isEmpty(currentCourse)) {
+                    popupOkBox("There are no cards left for this subject. \n Returning to the main menu");
+                }
+                else {
+                    deckIterator++;
+
+                }
             }
         });
 
@@ -425,9 +447,20 @@ public class StartUI extends Application {
             }
         });
 
+        nextCardButton.setOnAction((ActionEvent nextCard) -> {
+
+        });
+
+        prevCardButton.setOnAction((ActionEvent prevCard) -> {
+
+        });
+
         cardDataBox.getChildren().addAll(cardData);
-        cardBox.getChildren().addAll(cardTypeText, cardDataBox);
-        buttonBox.getChildren().addAll(backButton, showAnswerButton, removeCardButton);
+        cardTextBox.getChildren().addAll(cardTypeText, fillerBox, cardAmountText);
+        cardBox.getChildren().addAll(cardTextBox, cardDataBox);
+        upperButtonBox.getChildren().addAll(prevCardButton, showAnswerButton, nextCardButton);
+        lowerButtonBox.getChildren().addAll(backButton, removeCardButton);
+        buttonBox.getChildren().addAll(upperButtonBox, lowerButtonBox);
         centerVBox.getChildren().addAll(cardBox, buttonBox);
         return centerVBox;
     }
