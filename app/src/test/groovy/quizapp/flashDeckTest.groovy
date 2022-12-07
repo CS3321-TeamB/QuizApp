@@ -64,41 +64,30 @@ class flashDeckTest extends Specification {
         given:
         def flashDeck = new flashDeck(course)
         def flashDeck2 = new flashDeck(course)
-        when:
-        flashDeck.addCard(card1)
-        flashDeck.addCard(card2)
-        flashDeck.addCard(card3)
-        flashDeck.addCard(card1)
-        flashDeck.addCard(card2)
-        flashDeck.addCard(card3)
-        flashDeck.addCard(card1)
-        flashDeck.addCard(card2)
-        flashDeck.addCard(card3)
-        flashDeck.addCard(card1)
-        flashDeck.addCard(card2)
-        flashDeck.addCard(card3)
-        flashDeck.addCard(card1)
-        flashDeck.addCard(card2)
-        flashDeck.addCard(card3)
-        flashDeck.addCard(card1)
-        flashDeck.addCard(card2)
-        flashDeck.addCard(card3)
-        flashDeck.addCard(card1)
-        flashDeck.addCard(card2)
-        flashDeck.addCard(card3)
-        flashDeck.addCard(card1)
-        flashDeck.addCard(card2)
-        flashDeck.addCard(card3)
-        flashDeck.addCard(card1)
-        flashDeck.addCard(card2)
-        flashDeck.addCard(card3)
+        for(int i =0; i < 99; i++){
+            if (i%3 == 0) {
+                flashDeck.addCard(card1);
+            }
+            else if(i%3 == 1){
+                flashDeck.addCard(card2);
+            }
+            else {
+                flashDeck.addCard(card3);
+            }
+        }
+        ArrayList list = [1,2,3,4,5]
+        ArrayList list2 = Collections.shuffle(list)
+
         for(int i =0; i < flashDeck.totalCards; i++){
             flashDeck2.addCard(flashDeck.drawCard(i))
         }
+        when:
+
         flashDeck.shuffle()
+
         then:
 
-        flashDeck.cardStack.equals(flashDeck2.cardStack) == false
+        flashDeck.cardStack.equals(flashDeck2.cardStack) != true
 
     }
 }

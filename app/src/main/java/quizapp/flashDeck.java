@@ -13,8 +13,9 @@ import java.util.Collections;
 public class flashDeck{
     private int totalCards = 0;
     private boolean passStack = false;
-    private String subject;
-    private ArrayList<card> cardStack;
+    private static String subject;
+    static ArrayList<card> cardStack;
+    private static  int deckIterator = 0;
 
     /*
     Default MAX size set to 100 for each stack, because
@@ -24,17 +25,20 @@ public class flashDeck{
     private static final int STACKSIZE = 100;
 
     //TODO documentation
+    protected static void setIterator(int increment){
+        deckIterator += increment;
+    }
 
     protected int getTotalCards(){
         return totalCards;
     }
-    protected String getSubject(){
+    protected static String getSubject(){
         return subject;
     }
     protected boolean getIsPass(){
         return passStack;
     }
-
+    protected static int getIterator(){return deckIterator;}
     /**
      * Default constructor, creates an empty stack of cards
      * @param course this is the name of the course for
@@ -47,7 +51,9 @@ public class flashDeck{
         cardStack = new ArrayList<>(STACKSIZE);
     }
 
-
+    protected static card getCard(int index){
+        return cardStack.get(index);
+    }
     /*may not need this method
      */
 
@@ -87,6 +93,9 @@ public class flashDeck{
 
     }
 
+
+
+
     /**
      * Draw card. returns the card at the index supplied
      * This does not remove the card from the deck, it only
@@ -94,7 +103,7 @@ public class flashDeck{
      * @param index the index for getting a card from the deck
      * @return a card
      */
-    protected card drawCard(int index){
+    protected static card drawCard(int index){
         return cardStack.get(index);
     }
 
@@ -106,4 +115,7 @@ public class flashDeck{
     protected void shuffle(){
         Collections.shuffle(cardStack);
     }
+
 }
+
+

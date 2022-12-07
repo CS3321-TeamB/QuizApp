@@ -12,17 +12,25 @@ import java.util.Collections;
 
 
 public class course {
-    protected String courseName;
+    protected static String courseName;
     protected static ArrayList<flashDeck> subjects;
 
 
 
+    /**
+     *
+     * @param subject
+     * @return
+     */
     protected static flashDeck getDeck(String subject){
         for(int i = 0; i < subjects.size(); i++){
-            if subjects[i]
+            if (subjects.get(i).getSubject().equals(subject)){
+              return subjects.get(i);
+            }
         }
-        return
+        return null;
     }
+
 
     /**
      * Constructor for course, creates a new course with
@@ -40,7 +48,7 @@ public class course {
      * course
      * @param name String name of subject
      */
-    protected void newSubject(String name){
+    protected static void newSubject(String name){
         flashDeck subject = new flashDeck(name);
         subjects.add(subject);
     }

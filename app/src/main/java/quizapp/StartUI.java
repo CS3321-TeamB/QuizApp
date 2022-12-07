@@ -19,6 +19,7 @@ import javafx.stage.Screen;
 
 import java.util.ArrayList;
 
+
 public class StartUI extends Application {
     private int mainWidth = 500;
     private int mainHeight = 600;
@@ -244,6 +245,11 @@ public class StartUI extends Application {
         textBox.setAlignment(Pos.BASELINE_CENTER);
 
         Text subjectText = new Text("Please select a course:");
+
+        for(int i = 0; i < system.getCourseList().size(); i++){
+
+        }
+
         ComboBox subjectDropDown = new ComboBox(FXCollections.observableArrayList(subjectList));
         subjectDropDown.setPromptText("--Course--");
 
@@ -322,16 +328,14 @@ public class StartUI extends Application {
         Button backButton = new Button("Back");
 
         startButton.setOnAction((ActionEvent addCard) -> {
-            if(course.subjects.size() != 0){
+            if(system.getCourseList().size() != 0) {
 
-                if (questionText.getText() != null && answerText.getText() != null){
+                if (questionText.getText() != null && answerText.getText() != null) {
                     String front = questionText.getText();
                     String back = answerText.getText();
-                    card card = new card(front, back);
-                    course.addCard(subjectDropDown.getPromptText(), card);
+                    course.addCard(subjectDropDown.getPromptText(), system.createCard(front, back));
                 }
             }
-            //Code for adding to card object goes here.
         });
 
         backButton.setOnAction((ActionEvent back) -> {
