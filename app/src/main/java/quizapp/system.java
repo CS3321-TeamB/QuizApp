@@ -91,4 +91,14 @@ public class system {
         }
         return AllCourses.get(i);
     }
+
+    protected static boolean isEmpty(String courseName) {
+
+        if (course.getDeck(courseName).getTotalCards() == 0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 }

@@ -263,7 +263,7 @@ public class StartUI extends Application {
 
         startButton.setOnAction((ActionEvent start) -> {
             currentCourse = (String) subjectDropDown.getValue();
-            if (system.getIndex((String) subjectDropDown.getValue()) <= 0) {
+            if (system.isEmpty((String) subjectDropDown.getValue())) {
                 popupOkBox("There are no cards for that subject!");
             }
             else {
