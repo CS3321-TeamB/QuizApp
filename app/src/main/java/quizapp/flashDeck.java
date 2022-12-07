@@ -167,6 +167,12 @@ public class flashDeck{
         return null;
     }
 
+    public static void main(String[] args) {
+        flashDeck deck = new flashDeck("MAth");
+
+        System.out.println(deck.cardStack.size());
+
+    }
 }
 
 
