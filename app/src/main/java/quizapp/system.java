@@ -23,7 +23,10 @@ public class system {
         course.newSubject(subject);
     }
 
-
+    protected static course createCourse(String courseName){
+        course newCourse = new course(courseName);
+        return newCourse;
+    }
 
     /**
      * ADD a new card to a deck of specified subject

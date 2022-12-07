@@ -43,6 +43,7 @@ public class StartUI extends Application {
     private String bottomFrontColor = "#CCCCCC;";
     private String bottomBackColor = "#5D5D5D;";
     private String subjectList[] = {"Computer Science", "Mathematics", "Physics"};
+    private ArrayList<course> listOfCourses = new ArrayList<>();
 
 
     public StartUI() {
@@ -246,9 +247,6 @@ public class StartUI extends Application {
 
         Text subjectText = new Text("Please select a course:");
 
-        for(int i = 0; i < system.getCourseList().size(); i++){
-
-        }
 
         ComboBox subjectDropDown = new ComboBox(FXCollections.observableArrayList(subjectList));
         subjectDropDown.setPromptText("--Course--");
@@ -431,7 +429,8 @@ public class StartUI extends Application {
 
         addCourseButton.setOnAction((ActionEvent addCourse) -> {
             if(addCourseTextField.getText() != null){
-                course course = new course(addCourseTextField.getText());
+
+                listOfCourses.add(system.createCourse(addCourseTextField.getText()));
             }
             // Code for adding the new course goes here
         });

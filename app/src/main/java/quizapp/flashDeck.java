@@ -105,7 +105,7 @@ public class flashDeck{
         return cardStack.remove(index);
 
     }
-    
+
 
     /**
      * Draw card. returns the card at the index supplied
