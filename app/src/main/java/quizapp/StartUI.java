@@ -245,10 +245,7 @@ public class StartUI extends Application {
         textBox.setAlignment(Pos.BASELINE_CENTER);
 
         Text subjectText = new Text("Please select a course:");
-
-        for(int i = 0; i < system.getCourseList().size(); i++){
-
-        }
+        
 
         ComboBox subjectDropDown = new ComboBox(FXCollections.observableArrayList(subjectList));
         subjectDropDown.setPromptText("--Course--");
@@ -373,9 +370,14 @@ public class StartUI extends Application {
         cardDataBox.setAlignment(Pos.CENTER);
 
         Button backButton = new Button("Back to Main Menu");
+        Button removeCardButton = new Button("Remove Card");
+        Button showAnswerButton = new Button("Show Answer");
 
         Text cardTypeText = new Text("Question");
         TextArea cardData = new TextArea("Testing Answer");
+
+        buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setSpacing(5);
 
         backButton.setOnAction((ActionEvent back) -> {
             if (popupYesNoBox("Are you sure you want to go back?")) {
@@ -384,9 +386,19 @@ public class StartUI extends Application {
             }
         });
 
+        removeCardButton.setOnAction((ActionEvent removeCard) -> {
+            if (popupYesNoBox("Are you sure you want to remove the card?")) {
+                //Add code for removing card.
+            }
+        });
+
+        showAnswerButton.setOnAction((ActionEvent showAnswer) -> {
+            //Add code for showing the answer
+        });
+
         cardDataBox.getChildren().addAll(cardData);
         cardBox.getChildren().addAll(cardTypeText, cardDataBox);
-        buttonBox.getChildren().addAll(backButton);
+        buttonBox.getChildren().addAll(backButton, removeCardButton, showAnswerButton);
         centerVBox.getChildren().addAll(cardBox, buttonBox);
         return centerVBox;
     }
