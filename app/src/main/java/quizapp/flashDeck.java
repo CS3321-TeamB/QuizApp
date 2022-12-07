@@ -2,6 +2,19 @@ package quizapp;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import java.io.Reader;
+import java.lang.reflect.Type;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 /**
  * CardStack class will be a container for cards.
  * There can be multiple stacks of flash cards in a single
@@ -92,9 +105,7 @@ public class flashDeck{
         return cardStack.remove(index);
 
     }
-
-
-
+    
 
     /**
      * Draw card. returns the card at the index supplied
@@ -115,7 +126,47 @@ public class flashDeck{
     protected void shuffle(){
         Collections.shuffle(cardStack);
     }
+    public static void saveCardStack(String jsonFile, flashDeck cardStack_obj) throws IOException{
+
+        Gson gson = new Gson();
+
+        String jsonString = gson.toJson(cardStack_obj);
+
+        try {
+            File cStackFile = new File(jsonFile);
+
+            FileWriter wr = new FileWriter(cStackFile);
+            wr.write(jsonString);
+            wr.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static flashDeck loadCardStack(String jsonFile) {
+        try {
+            //create Gson instance
+            Gson gson = new Gson();
+            //create a reader
+            Reader rd = Files.newBufferedReader(Paths.get(jsonFile));
+            //set type for cardStack
+            Type cardStackType = new TypeToken<flashDeck>(){}.getType();
+            //convert JSON string to cardStack object
+            flashDeck cardStack_obj = gson.fromJson(rd, cardStackType);
+            //close reader
+            rd.close();
+
+            return cardStack_obj;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
 
 }
+
+
+
 
 
