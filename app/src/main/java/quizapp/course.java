@@ -13,23 +13,7 @@ import java.util.Collections;
 
 public class course {
     protected static String courseName;
-    protected static ArrayList<flashDeck> subjects;
-
-
-
-    /**
-     *
-     * @param subject
-     * @return
-     */
-    protected static flashDeck getDeck(String subject){
-        for(int i = 0; i < subjects.size(); i++){
-            if (subjects.get(i).getSubject().equals(subject)){
-              return subjects.get(i);
-            }
-        }
-        return null;
-    }
+    protected static flashDeck questions;
 
 
     /**
@@ -39,43 +23,56 @@ public class course {
      */
     protected course(String name){
         this.courseName = name;
-        subjects = new ArrayList<flashDeck>();
+        questions = new flashDeck(name);
     }
 
     /**
-     * Method for adding a new subject for a given course
-     * Requires a name and adds a new stack of cards for this
-     * course
-     * @param name String name of subject
-     */
-    protected static void newSubject(String name){
-        flashDeck subject = new flashDeck(name);
-        subjects.add(subject);
-    }
-
-
-    /**
-     * Method for getting the index of the chosen subject in
-     * the list of subjects for a given course
-     * @param subject String of subject name of desired subject
+     *
+     * @param subject
      * @return
      */
-    protected static int getIndex(String subject){
-        for(int i = 0; i < subjects.size(); i++){
-            if(subjects.get(i).getSubject().equals(subject)){
-                return 1;
-            }
-        }
-        return -1; //subject not found
+    protected static flashDeck getDeck(String subject){
+        return questions;
     }
+
+    protected static String getCourseName(){
+        return courseName;
+    }
+
+
+//    /**
+//     * Method for adding a new subject for a given course
+//     * Requires a name and adds a new stack of cards for this
+//     * course
+//     * @param name String name of subject
+//     */
+//    protected static void newSubject(String name){
+//        flashDeck subject = new flashDeck(name);
+//        subjects.add(subject);
+//    }
+
+
+//    /**
+//     * Method for getting the index of the chosen subject in
+//     * the list of subjects for a given course
+//     * @param subject String of subject name of desired subject
+//     * @return
+//     */
+//    protected static int getIndex(String subject){
+//        for(int i = 0; i < questions.getTotalCards(); i++){
+//            if(questions.get.getSubject().equals(subject)){
+//                return 1;
+//            }
+//        }
+//        return -1; //subject not found
+//    }
 
     /**
      * Method ot add a card to a subject for the course
-     * @param subject string of subject name
      * @param card card object for adding to the list
      */
-    protected static void addCard(String subject, card card){
-        subjects.get(getIndex(subject)).addCard(card);
+    protected static void addCard(card card){
+        questions.addCardToDeck(card);
     }
 
     /**
@@ -84,6 +81,6 @@ public class course {
      * @param card card object for removing the list
      */
     protected void removeCard(String subject, card card){
-        subjects.get(getIndex(subject)).removeCard(card);
+        questions.removeCard(card);
     }
 }

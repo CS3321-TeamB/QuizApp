@@ -18,6 +18,7 @@ import javafx.stage.Stage;
 import javafx.stage.Screen;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class StartUI extends Application {
@@ -42,8 +43,10 @@ public class StartUI extends Application {
     private String centerColor = "#B5B5B5;";
     private String bottomFrontColor = "#CCCCCC;";
     private String bottomBackColor = "#5D5D5D;";
-    private String subjectList[] = {"Computer Science", "Mathematics", "Physics"};
-    private ArrayList<course> listOfCourses = new ArrayList<>();
+    private List<String> subjectList = new ArrayList<>();
+    private String currentCourse;
+    private int deckIterator = 0;
+    private int answerButtonClicked = 0;
 
 
     public StartUI() {
@@ -259,6 +262,7 @@ public class StartUI extends Application {
         Button backButton = new Button("Back");
 
         startButton.setOnAction((ActionEvent start) -> {
+            currentCourse = (String) subjectDropDown.getValue();
             buildStudyScreen();
             updateScene(studyScreen);
         });
@@ -326,13 +330,16 @@ public class StartUI extends Application {
         Button backButton = new Button("Back");
 
         startButton.setOnAction((ActionEvent addCard) -> {
-            if(system.getCourseList().size() != 0) {
 
-                if (questionText.getText() != null && answerText.getText() != null) {
-                    String front = questionText.getText();
-                    String back = answerText.getText();
-                    course.addCard(subjectDropDown.getPromptText(), system.createCard(front, back));
-                }
+            if (questionText.getText() != null && answerText.getText() != null) {
+                String front = questionField.getText();
+                String back = answerField.getText();
+
+                system.addToDeck((String) subjectDropDown.getValue(), system.createCard(front, back));
+                questionField.clear();
+                answerField.clear();
+                questionField.setText("Card added to the " + subjectDropDown.getValue() + " deck.");
+
             }
         });
 
@@ -376,7 +383,12 @@ public class StartUI extends Application {
 
         Text cardTypeText = new Text("Question");
         TextArea cardData = new TextArea("Testing Answer");
-
+        deckIterator = system.deckIterator;
+        if(subjectList.size() !=0) {
+            card card = system.getCourse(currentCourse).questions.drawCard(deckIterator);
+           cardData.setText(card.getFront());
+        }else
+            cardData.setText("No deck chosen");
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setSpacing(5);
 
@@ -393,8 +405,18 @@ public class StartUI extends Application {
             }
         });
 
+
         showAnswerButton.setOnAction((ActionEvent showAnswer) -> {
-            //Add code for showing the answer
+            if(answerButtonClicked == 0) {
+                cardData.setText(card.getBack());
+                answerButtonClicked +=1;
+                cardTypeText.setText("Answer");
+            }
+            else if(answerButtonClicked ==1) {
+                cardData.setText(card.getFront());
+                answerButtonClicked -= 1;
+                cardTypeText.setText("Question");
+            }
         });
 
         cardDataBox.getChildren().addAll(cardData);
@@ -444,10 +466,9 @@ public class StartUI extends Application {
 
         addCourseButton.setOnAction((ActionEvent addCourse) -> {
             if(addCourseTextField.getText() != null){
-
-                listOfCourses.add(system.createCourse(addCourseTextField.getText()));
-            }
-            // Code for adding the new course goes here
+                course course = system.createCourse(addCourseTextField.getText());            }
+            subjectList.add(course.courseName);
+            currentCoursesArea.setText(String.valueOf(subjectList));
         });
 
         textBox.getChildren().addAll(addCourseText);

@@ -88,7 +88,7 @@ public class flashDeck{
      * @param card a flash card with a front and
      *             back value
      */
-    protected void addCard(card card){
+    protected void addCardToDeck(card card){
         cardStack.add(card);
         totalCards +=1;
     }

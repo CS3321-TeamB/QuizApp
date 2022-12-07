@@ -9,7 +9,7 @@ package quizapp;
  */
 
 public class card {
-    private String front, back;
+    private static String front, back;
     private boolean isHard = false;
     private boolean pass = false;
     private boolean starred = false;   //in case we want to have users be able to increase priority of card
@@ -40,7 +40,7 @@ public class card {
      * getter for front of card
      * @return the string on the front of the card
      */
-    protected String getFront() {
+    protected static String getFront() {
         return front;
     }
 
@@ -48,7 +48,7 @@ public class card {
      * getter for back of card
      * @return the string on the back of the card
      */
-    protected String getBack() {
+    protected static String getBack() {
         return back;
     }
 

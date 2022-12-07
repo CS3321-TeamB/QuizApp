@@ -3,6 +3,9 @@ package quizapp;
 import java.util.ArrayList;
 
 public class system {
+    private static ArrayList<course> AllCourses = new ArrayList<>();
+    static int deckIterator = 0;
+
 
     /**
      * create card to be added.
@@ -15,16 +18,17 @@ public class system {
         return newCard;
     }
 
-    /**
-     *
-     * @param subject
-     */
-    protected static void createFlashDeck(String subject){
-        course.newSubject(subject);
-    }
+//    /**
+//     *
+//     * @param course
+//     */
+//    protected static void createFlashDeck(String course){
+//        course.(course);
+//    }
 
     protected static course createCourse(String courseName){
         course newCourse = new course(courseName);
+        AllCourses.add(newCourse);
         return newCourse;
     }
 
@@ -34,7 +38,10 @@ public class system {
      * @param card
      */
     protected static void addToDeck(String subjectName, card card){
-        course.addCard(subjectName, card);
+        for(int i = 0; i < AllCourses.size(); i++){
+            if(AllCourses.get(i).courseName.equals(subjectName));
+                AllCourses.get(i).addCard(card);
+        }
     }
 
 
@@ -43,7 +50,7 @@ public class system {
      * @return
      */
     protected static ArrayList getCourseList(){
-        return course.subjects;
+        return AllCourses;
     }
 
     /**
@@ -67,4 +74,21 @@ public class system {
         return course.getDeck(subject).drawCard(indexOfCurrentCard + increment);
     }
 
+
+    protected static int getIndex(String courseName1) {
+        int index = -1;
+        for (int i = 0; i < AllCourses.size(); i++) {
+            if (AllCourses.get(i).courseName.equals(courseName1)) {
+                index = i;
+            }
+        }
+        return index;
+    }
+    protected static course getCourse(String courseName1){
+        int i = 0;
+        while ((!AllCourses.get(i).courseName.equals(courseName1))){
+            i++;
+        }
+        return AllCourses.get(i);
+    }
 }
