@@ -24,9 +24,9 @@ class flashDeckTest extends Specification {
         given:
         def flashDeck = new flashDeck(course)
         when:
-        flashDeck.addCard(card1)
-        flashDeck.addCard(card2)
-        flashDeck.addCard(card3)
+        flashDeck.addCardToDeck(card1)
+        flashDeck.addCardToDeck(card2)
+        flashDeck.addCardToDeck(card3)
 
         then:
         flashDeck.totalCards == 3
@@ -35,9 +35,9 @@ class flashDeckTest extends Specification {
     def "remove from flashDeck"(){
         given:
         def flashDeck = new flashDeck(course)
-        flashDeck.addCard(card1)
-        flashDeck.addCard(card2)
-        flashDeck.addCard(card3)
+        flashDeck.addCardToDeck(card1)
+        flashDeck.addCardToDeck(card2)
+        flashDeck.addCardToDeck(card3)
 
         when:
         flashDeck.removeCard(card1)
@@ -52,42 +52,43 @@ class flashDeckTest extends Specification {
         def flashDeck = new flashDeck(course)
         when:
         for (int i = 0; i < 99; i++) {
-            flashDeck.addCard(card1)
+            flashDeck.addCardToDeck(card1)
         }
-        flashDeck.addCard(card2)
+        flashDeck.addCardToDeck(card2)
 
         then:
         flashDeck.totalCards == 100
         flashDeck.drawCard(99) == card2
     }
-    def "shuffle test"(){
-        given:
-        def flashDeck = new flashDeck(course)
-        def flashDeck2 = new flashDeck(course)
-        for(int i =0; i < 99; i++){
-            if (i%3 == 0) {
-                flashDeck.addCard(card1);
-            }
-            else if(i%3 == 1){
-                flashDeck.addCard(card2);
-            }
-            else {
-                flashDeck.addCard(card3);
-            }
-        }
-        ArrayList list = [1,2,3,4,5]
-        ArrayList list2 = Collections.shuffle(list)
-
-        for(int i =0; i < flashDeck.totalCards; i++){
-            flashDeck2.addCard(flashDeck.drawCard(i))
-        }
-        when:
-
-        flashDeck.shuffle()
-
-        then:
-
-        flashDeck.cardStack.equals(flashDeck2.cardStack) != true
-
-    }
+//    def "shuffle test"(){
+//        given:
+//
+//        def flashDeck1 = new flashDeck(course)
+//        def flashDeck2 = new flashDeck(course)
+//        for(int i =0; i < 99; i++){
+//            if (i%3 == 0) {
+//                flashDeck1.addCardToDeck(card1);
+//            }
+//            else if(i%3 == 1){
+//                flashDeck1.addCardToDeck(card2);
+//            }
+//            else {
+//                flashDeck1.addCardToDeck(card3);
+//            }
+//        }
+//        ArrayList list = [1,2,3,4,5]
+//        ArrayList list2 = Collections.shuffle(list)
+//
+//
+//        when:
+//        for(int i =0; i < flashDeck1.totalCards; i++){
+//            flashDeck2.addCardToDeck(flashDeck1.drawCard(i))
+//        }
+//        flashDeck1.shuffle()
+//
+//        then:
+//
+//
+//
+//    }
 }

@@ -126,6 +126,9 @@ public class flashDeck{
     protected void shuffle(){
         Collections.shuffle(cardStack);
     }
+
+
+
     public static void saveCardStack(String jsonFile, flashDeck cardStack_obj) throws IOException{
 
         Gson gson = new Gson();
@@ -164,6 +167,12 @@ public class flashDeck{
         return null;
     }
 
+    public static void main(String[] args) {
+        flashDeck deck = new flashDeck("MAth");
+
+        System.out.println(deck.cardStack.size());
+
+    }
 }
 
 

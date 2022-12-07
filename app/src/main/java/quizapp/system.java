@@ -92,6 +92,7 @@ public class system {
         return AllCourses.get(i);
     }
 
+
     protected static boolean isEmpty(String courseName) {
 
         if (course.getDeck(courseName).getTotalCards() == 0) {
@@ -101,4 +102,5 @@ public class system {
             return false;
         }
     }
+
 }
