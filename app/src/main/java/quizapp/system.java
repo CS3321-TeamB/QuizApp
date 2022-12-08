@@ -21,6 +21,7 @@ public class system {
      * @return
      */
 
+
     protected static system getInstance(){
         if (INSTANCE == null){
             INSTANCE = new system();
@@ -85,6 +86,7 @@ public class system {
      * MEthod for deleting card from the deck
      * @param subject  course name
      * @param card card to be removed
+
      */
     protected static void deleteCard(String subject, card card){
         int index = getInstance().AllCourses.indexOf(system.getCourse(subject));
@@ -142,8 +144,7 @@ public class system {
         }
         return getInstance().AllCourses.get(j);
     }
-
-
+    
 
     /**
      * Method to determine if there are cards in the course's flashDeck

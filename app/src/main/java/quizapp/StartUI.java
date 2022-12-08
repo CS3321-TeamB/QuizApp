@@ -22,8 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
+/**
+ * StartUI Class
+ */
 public class StartUI extends Application {
     private final int mainWidth = 500;
     private final int mainHeight = 600;
@@ -50,10 +51,14 @@ public class StartUI extends Application {
     private final List<String> subjectList = new ArrayList<>();
     private String currentCourse;
     private int deckIterator = 0;
+    private int totalCards = 0;
     private boolean answerButtonClicked = false;
     private card currentCard;
     private course addCourseTo;
 
+    /**
+     * StartUI Constructor
+     */
     public StartUI() {
         root = new BorderPane();
         mainMenu = new BorderPane();
@@ -62,12 +67,23 @@ public class StartUI extends Application {
         studyScreen = new BorderPane();
         addCourse = new BorderPane();
     }
+
+    /**
+     * Method for updating the scene.
+     * @param node
+     */
     private void updateScene(Node node) {
         root.getChildren().clear();
         root.setCenter(node);
         stage.setHeight(topHeight + centerHeight + bottomHeight);
         stage.setWidth(centerWidth);
     }
+
+    /**
+     * Method to start the main window.
+     * @param stage
+     * @throws Exception
+     */
     @Override
     public void start(Stage stage) throws Exception {
         this.stage = stage;
@@ -105,36 +121,55 @@ public class StartUI extends Application {
         courseList.forEach((course) -> subjectList.add(course.getCourseName()));
     }
 
+    /**
+     * Method for building the "main menu".
+     */
     private void buildMainMenu() {
         mainMenu.setTop(addTitleBox());
         mainMenu.setCenter(addMainMenu());
         mainMenu.setBottom(addAuthorBox());
     }
 
+    /**
+     * Method for building the "start" screen.
+     */
     private void buildStartMenu() {
         startMenu.setTop(clearTop());
         startMenu.setCenter(addStartMenu());
         startMenu.setBottom(clearBottom());
     }
 
+    /**
+     * Method for building the "add questions" screen.
+     */
     private void buildAddQuestionsMenu() {
         addMenu.setTop(clearTop());
         addMenu.setCenter(addAddQuestionsMenu());
         addMenu.setBottom(clearBottom());
     }
 
+    /**
+     * Method for building the "study" screen.
+     */
     private void buildStudyScreen() {
         studyScreen.setTop(clearTop());
         studyScreen.setCenter(addStudyScreen());
         studyScreen.setBottom(clearBottom());
     }
 
+    /**
+     * Method for building the "add course" screen.
+     */
     private void buildAddCourse() {
         addCourse.setTop(clearTop());
         addCourse.setCenter(addCourseMenu());
         addCourse.setBottom(clearBottom());
     }
 
+    /**
+     * Method for adding the "title" box.
+     * @return HBox
+     */
     private HBox addTitleBox() {
         topHeight = 130;
 
@@ -165,6 +200,10 @@ public class StartUI extends Application {
         return topHBox;
     }
 
+    /**
+     * Method for adding the "main menu".
+     * @return HBox
+     */
     private HBox addMainMenu() {
         centerHeight = 250;
         centerWidth = 400;
@@ -211,6 +250,10 @@ public class StartUI extends Application {
         return centerHBox;
     }
 
+    /**
+     * Method for adding the "author" box.
+     * @return HBox
+     */
     private HBox addAuthorBox() {
         bottomHeight = 50;
 
@@ -237,6 +280,10 @@ public class StartUI extends Application {
         return bottomHBox;
     }
 
+    /**
+     * Method for adding the "start" menu.
+     * @return HBox
+     */
     private HBox addStartMenu() {
         centerHeight = 200;
         centerWidth = 400;
@@ -293,6 +340,10 @@ public class StartUI extends Application {
         return centerHBox;
     }
 
+    /**
+     * Method for adding the "add Questions" menu.
+     * @return HBox
+     */
     private HBox addAddQuestionsMenu() {
         centerHeight = 250;
         centerWidth = 500;
@@ -343,8 +394,7 @@ public class StartUI extends Application {
         Button backButton = new Button("Back");
 
         addCardButton.setOnAction((ActionEvent addCard) -> {
-
-            if (questionText.getText() != null && answerText.getText() != null) {
+            if (!questionField.getText().equals("") && !answerField.getText().equals("")) {
                 String front = questionField.getText();
                 String back = answerField.getText();
 
@@ -352,6 +402,12 @@ public class StartUI extends Application {
                 questionField.clear();
                 answerField.clear();
                 questionField.setPromptText("Card added to the " + subjectDropDown.getValue() + " deck.");
+
+            }
+            else {
+                questionField.setPromptText("Please add a question.");
+                answerField.setPromptText("Please add an answer.");
+                subjectDropDown.requestFocus();
 
             }
         });
@@ -372,13 +428,15 @@ public class StartUI extends Application {
         return centerHBox;
     }
 
+    /**
+     * Method for adding the "Study" screen.
+     * @return VBox
+     */
     private VBox addStudyScreen() {
         centerHeight = 200;
         centerWidth = 500;
-//        int i = system.getCourse(currentCourse).deckIterator;
         deckIterator = system.deckIterator;
-//        deckIterator = 0;
-        int totalCards = 0;
+        totalCards = 0;
         VBox centerVBox = new VBox();
         VBox cardBox = new VBox();
         HBox cardTextBox = new HBox();
@@ -421,7 +479,6 @@ public class StartUI extends Application {
            currentCard = system.getCourse(currentCourse).questions.drawCard(deckIterator);
            totalCards = system.getCourse(currentCourse).getDeckSize();
            cardData.setText(currentCard.getFront());
-
            cardAmountText.setText((deckIterator + 1) + "/" + totalCards);
         }else
             cardData.setText("No deck chosen");
@@ -442,12 +499,20 @@ public class StartUI extends Application {
         removeCardButton.setOnAction((ActionEvent removeCard) -> {
             if (popupYesNoBox("Are you sure you want to remove the card?")) {
                 system.deleteCard(currentCourse, currentCard);
-                if (system.isEmpty(currentCourse)) {
+                System.out.println("Iterator: " + deckIterator + " Total Cards: " + totalCards);
+                totalCards = system.getCourse(currentCourse).getDeckSize();
+                if (deckIterator == totalCards) {
+                    deckIterator--;
+                }
+                if (totalCards == 0) {
                     popupOkBox("There are no cards left for this subject. \n Returning to the main menu");
+                    buildMainMenu();
+                    updateScene(mainMenu);
                 }
                 else {
-                    deckIterator++;
-
+                    currentCard = system.getCourse(currentCourse).questions.drawCard(deckIterator);
+                    cardData.setText(currentCard.getFront());
+                    cardAmountText.setText((deckIterator + 1) + "/" + totalCards);
                 }
             }
         });
@@ -468,11 +533,39 @@ public class StartUI extends Application {
         });
 
         nextCardButton.setOnAction((ActionEvent nextCard) -> {
-
+            if (deckIterator + 1 >= totalCards) {
+                deckIterator = 0;
+            }
+            else {
+                deckIterator++;
+            }
+            currentCard = system.getCourse(currentCourse).questions.drawCard(deckIterator);
+            totalCards = system.getCourse(currentCourse).getDeckSize();
+            cardData.setText(currentCard.getFront());
+            cardAmountText.setText((deckIterator + 1) + "/" + totalCards);
+            if (answerButtonClicked) {
+                cardTypeText.setText("Question");
+                showAnswerButton.setText("Show Answer");
+                answerButtonClicked = false;
+            }
         });
 
         prevCardButton.setOnAction((ActionEvent prevCard) -> {
-
+            if (deckIterator <= 0) {
+                deckIterator = totalCards - 1;
+            }
+            else {
+                deckIterator--;
+            }
+            currentCard = system.getCourse(currentCourse).questions.drawCard(deckIterator);
+            totalCards = system.getCourse(currentCourse).getDeckSize();
+            cardData.setText(currentCard.getFront());
+            cardAmountText.setText((deckIterator + 1) + "/" + totalCards);
+            if (answerButtonClicked) {
+                cardTypeText.setText("Question");
+                showAnswerButton.setText("Show Answer");
+                answerButtonClicked = false;
+            }
         });
 
         cardDataBox.getChildren().addAll(cardData);
@@ -485,6 +578,10 @@ public class StartUI extends Application {
         return centerVBox;
     }
 
+    /**
+     * Method for adding the "addCourse" menu.
+     * @return VBox
+     */
     private VBox addCourseMenu() {
         centerHeight = 200;
         centerWidth = 500;
@@ -527,13 +624,16 @@ public class StartUI extends Application {
         });
 
         addCourseButton.setOnAction((ActionEvent addCourse) -> {
-            if(addCourseTextField.getText() != null){
-               addCourseTo = system.createCourse(addCourseTextField.getText());            }
-            subjectList.add(addCourseTo.getCourseName());
-
-            addCourseTextField.clear();
-            currentCoursesArea.setText(outputCourseNames());
-            addCourseTextField.requestFocus();
+            if(!addCourseTextField.getText().equals("")) {
+                addCourseTo = system.createCourse(addCourseTextField.getText());
+                subjectList.add(addCourseTo.getCourseName());
+                addCourseTextField.clear();
+                currentCoursesArea.setText(outputCourseNames());
+                addCourseTextField.requestFocus();
+            }
+            else {
+                addCourseTextField.setPromptText("Please enter a course name.");
+            }
         });
 
         textBox.getChildren().addAll(addCourseText);
@@ -543,6 +643,10 @@ public class StartUI extends Application {
         return centerVBox;
     }
 
+    /**
+     * Method for returning the course names.
+     * @return course names
+     */
     private String outputCourseNames() {
         String currCourses = "\0";
         if (!subjectList.isEmpty()) {
@@ -558,6 +662,10 @@ public class StartUI extends Application {
         return currCourses;
     }
 
+    /**
+     * Method to clear the top box.
+     * @return
+     */
     private HBox clearTop() {
         topHeight = 100;
         HBox emptyBox = new HBox();
@@ -569,6 +677,10 @@ public class StartUI extends Application {
         return emptyBox;
     }
 
+    /**
+     * Method to clear the bottom box.
+     * @return
+     */
     private HBox clearBottom() {
         bottomHeight = 100;
         HBox emptyBox = new HBox();
@@ -580,7 +692,11 @@ public class StartUI extends Application {
         return emptyBox;
     }
 
-
+    /**
+     * Method to pop up a yes/no alert box.
+     * @param msg message
+     * @return boolean
+     */
     private boolean popupYesNoBox(String msg) {
         Alert messageBox = new Alert(Alert.AlertType.NONE);
         ButtonType yesButton = ButtonType.YES;
@@ -593,6 +709,10 @@ public class StartUI extends Application {
         return messageBox.getResult() == ButtonType.YES;
     }
 
+    /**
+     * Method to pop up an OK alert box.
+     * @param msg message
+     */
     private void popupOkBox(String msg) {
         Alert messageBox = new Alert(Alert.AlertType.NONE);
         ButtonType okButton = ButtonType.OK;

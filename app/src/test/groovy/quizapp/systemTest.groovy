@@ -1,18 +1,30 @@
 package quizapp
+
 import spock.lang.Specification
 
 class systemTest extends Specification{
+    public static final system = new system()
 
     def "create card"(){
+        given:
+        def card = new card("front", "back")
 
+        expect:
+        card.front == system.createCard("front", "back").front
     }
 
-    def "create a crouse"(){
+    def "create a course"(){
+        given:
+        def course = new course("Health")
 
+        expect:
+        course.courseName == system.createCourse("Health").courseName
     }
 
+    def "get course list"(){
+    }
 
-    def "get a course"(){
+    def "add to deck"(){
 
     }
 
@@ -33,9 +45,13 @@ class systemTest extends Specification{
     }
 
     def "test is empty"(){
+        given:
+        def system = new system()
+        system.createCourse("Health")
 
+        expect:
+        system.isEmpty("Health") == true
     }
-
 
     def "getCourse"(){
         given:

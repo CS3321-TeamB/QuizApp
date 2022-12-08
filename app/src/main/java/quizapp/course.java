@@ -96,7 +96,6 @@ public class course {
      * card card object for adding to the list
      */
     protected void addCard(String front, String back){
-
         questions.addCardToDeck(front, back);
     }
 
