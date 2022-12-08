@@ -24,27 +24,26 @@ class flashDeckTest extends Specification {
         given:
         def flashDeck = new flashDeck(course)
         when:
-        flashDeck.addCardToDeck(card1)
-        flashDeck.addCardToDeck(card2)
-        flashDeck.addCardToDeck(card3)
+        flashDeck.addCardToDeck("front1", "back1")
+        flashDeck.addCardToDeck("front2", "back2")
+        flashDeck.addCardToDeck("front3", "back3")
 
         then:
         flashDeck.totalCards == 3
-        flashDeck.drawCard(0) == card1
+        flashDeck.drawCard(0).getFront() == "front1"
     }
     def "remove from flashDeck"(){
         given:
         def flashDeck = new flashDeck(course)
-        flashDeck.addCardToDeck(card1)
-        flashDeck.addCardToDeck(card2)
-        flashDeck.addCardToDeck(card3)
+        flashDeck.addCardToDeck("front1", "back1")
+        flashDeck.addCardToDeck("front2", "back2")
+        flashDeck.addCardToDeck("front3", "back3")
 
         when:
-        flashDeck.removeCard(card1)
+        flashDeck.removeCard(flashDeck.cardStack.get(0))
 
         then:
         flashDeck.totalCards == 2
-        flashDeck.drawCard(0) == card2
     }
 
     def "draw from flashDeck"() {
@@ -52,13 +51,13 @@ class flashDeckTest extends Specification {
         def flashDeck = new flashDeck(course)
         when:
         for (int i = 0; i < 99; i++) {
-            flashDeck.addCardToDeck(card1)
+            flashDeck.addCardToDeck("front1", "back1")
         }
-        flashDeck.addCardToDeck(card2)
+        flashDeck.addCardToDeck("front2", "back2")
 
         then:
         flashDeck.totalCards == 100
-        flashDeck.drawCard(99) == card2
+        flashDeck.drawCard(99).getFront() == "front2"
     }
 //    def "shuffle test"(){
 //        given:
