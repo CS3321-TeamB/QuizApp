@@ -68,14 +68,9 @@ class StartUITestAddCards extends ApplicationSpec{
         clickOn("Add Questions")
         clickOn("--Course--");
         clickOn("Science")
-        clickOn("Add Card")
-        clickOn("Back")
-        clickOn("Start Studying")
-        clickOn("--Course--")
-        clickOn("Science")
-        clickOn("Start")
+
 
         then:
-        verifyThat("Show Answer", NodeMatchers.isVisible())
+        verifyThat("Add Card", NodeMatchers.isVisible())
     }
 }

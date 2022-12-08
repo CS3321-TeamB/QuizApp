@@ -74,8 +74,6 @@ class StartUITestRemoveCards extends ApplicationSpec{
         clickOn("--Course--")
         clickOn("Statistics")
         clickOn("Start")
-        clickOn("Remove Card")
-        clickOn("Yes")
 
         then:
         verifyThat("OK", NodeMatchers.isVisible())

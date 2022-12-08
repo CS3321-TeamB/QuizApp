@@ -33,9 +33,8 @@ class courseTest extends Specification {
     def "test addCard"(){
         given:
         def course = new course(courseName)
-        def card = new card("front", "back")
         course.questions = deck
-        course.addCard(card)
+        course.addCard("front","back")
 
         expect:
         course.questions.cardStack.isEmpty() == false
@@ -43,10 +42,9 @@ class courseTest extends Specification {
     def "test removeCard"(){
         given:
         def course = new course(courseName)
-        def card = new card("front", "back")
         course.questions = deck
-        course.addCard(card)
-        course.removeCard(courseName,card)
+        course.addCard("front", "back")
+        course.removeCard(courseName,course.questions.cardStack.get(0))
 
         expect:
         course.questions.cardStack.isEmpty() == true
