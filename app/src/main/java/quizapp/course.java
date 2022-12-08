@@ -22,7 +22,7 @@ public class course {
      * @param name
      */
     protected course(String name){
-        this.courseName = name;
+        courseName = name;
         questions = new flashDeck(name);
     }
 
@@ -37,6 +37,19 @@ public class course {
 
     protected static String getCourseName(){
         return courseName;
+    }
+
+    protected int getDeckSize(){
+        return questions.getTotalCards();
+    }
+
+    /**
+     * method for drawing a card
+     * @param indexOfCard
+     * @return
+     */
+    protected static card drawCard(int indexOfCard){
+       return flashDeck.drawCard(indexOfCard);
     }
 
 

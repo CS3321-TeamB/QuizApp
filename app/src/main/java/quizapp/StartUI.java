@@ -23,29 +23,29 @@ import java.util.List;
 
 
 public class StartUI extends Application {
-    private int mainWidth = 500;
-    private int mainHeight = 600;
+    private final int mainWidth = 500;
+    private final int mainHeight = 600;
     private int topHeight = 130;
     private int centerHeight = 100;
     private int centerWidth = 100;
     private int bottomHeight = 50;
     private Scene scene;
-    private BorderPane root;
-    private BorderPane mainMenu;
-    private BorderPane startMenu;
-    private BorderPane addMenu;
-    private BorderPane studyScreen;
-    private BorderPane addCourse;
+    private final BorderPane root;
+    private final BorderPane mainMenu;
+    private final BorderPane startMenu;
+    private final BorderPane addMenu;
+    private final BorderPane studyScreen;
+    private final BorderPane addCourse;
     private Stage stage;
-    private BorderStroke stroke = new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(2));
-    private Border border = new Border(stroke);
-    private String topFrontColor = "#CCCCCC;";
-    private String topBackColor = "#5D5D5D;";
-    private String centerColor = "#B5B5B5;";
-    private String bottomFrontColor = "#CCCCCC;";
-    private String bottomBackColor = "#5D5D5D;";
+    private final BorderStroke stroke = new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, null, new BorderWidths(2));
+    private final Border border = new Border(stroke);
+    private final String topFrontColor = "#CCCCCC;";
+    private final String topBackColor = "#5D5D5D;";
+    private final String centerColor = "#B5B5B5;";
+    private final String bottomFrontColor = "#CCCCCC;";
+    private final String bottomBackColor = "#5D5D5D;";
     private ArrayList<course> courseList = new ArrayList<>();
-    private List<String> subjectList = new ArrayList<>();
+    private final List<String> subjectList = new ArrayList<>();
     private String currentCourse;
     private int deckIterator = 0;
     private boolean answerButtonClicked = false;
@@ -411,9 +411,11 @@ public class StartUI extends Application {
         buttonBox.setSpacing(5);
 
         if(subjectList.size() !=0) {
-            card card = system.getCourse(currentCourse).questions.drawCard(deckIterator);
-           cardData.setText(card.getFront());
-           totalCards = system.getCourse(currentCourse).questions.getTotalCards();
+
+           card card = system.getCourse(currentCourse).questions.drawCard(deckIterator);
+            totalCards = system.getCourse(currentCourse).getDeckSize();
+           cardData.setText(quizapp.card.getFront() + totalCards);
+
            cardAmountText.setText((deckIterator + 1) + "/" + totalCards);
         }else
             cardData.setText("No deck chosen");
@@ -581,10 +583,7 @@ public class StartUI extends Application {
         messageBox.getDialogPane().setMaxWidth(100);
         messageBox.showAndWait();
 
-        if (messageBox.getResult() == ButtonType.YES) {
-            return true;
-        }
-        return false;
+        return messageBox.getResult() == ButtonType.YES;
     }
 
     private void popupOkBox(String msg) {
