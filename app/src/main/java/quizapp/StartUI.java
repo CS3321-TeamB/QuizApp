@@ -408,6 +408,7 @@ public class StartUI extends Application {
                 questionField.setPromptText("Please add a question.");
                 answerField.setPromptText("Please add an answer.");
                 subjectDropDown.requestFocus();
+
             }
         });
 

@@ -1,5 +1,12 @@
 package quizapp;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
 /**
@@ -86,7 +93,7 @@ public class course {
 
     /**
      * Method ot add a card to a subject for the course
-     * @param card card object for adding to the list
+     * card card object for adding to the list
      */
     protected void addCard(String front, String back){
         questions.addCardToDeck(front, back);
@@ -100,4 +107,24 @@ public class course {
     protected void removeCard(String subject, card card){
         questions.removeCard(card);
     }
+
+//    protected static void saveCourse(String jsonFile, course course_obj) throws IOException {
+//        File saveFolder = new File("./saves");
+//        if (!saveFolder.exists()) {
+//            saveFolder.mkdirs();
+//        }
+//
+//        Writer writer = new FileWriter("./saves", false);
+//        Gson gson = new GsonBuilder()
+//                .setPrettyPrinting()
+//                .create();
+//        try{
+//            gson.toJson(course_obj, writer); //Not appending to keep file fresh on new save
+//        }catch(Exception IOE){
+////            LOGGER.warn("Unable to write game objects to file to save.");
+//        }
+//        writer.flush();
+//        writer.close();
+////        LOGGER.info("Game was saved");
+//    }
 }
