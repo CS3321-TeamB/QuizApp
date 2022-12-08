@@ -1,6 +1,8 @@
 # QuizApp
 Quiz app, similar to quizlet
 
+## Unit Test Results: http://localhost:63343/QuizApp/QuizApp.app/build/reports/tests/test/index.html?_ijt=8pcins4dueh5b8l2gto7nusovh&_ij_reload=RELOAD_ON_SAVE
+
 ## Use Case Diagram
 ![image](https://user-images.githubusercontent.com/90599582/206378437-ad1efd7f-05fd-4eb9-803b-60bd57aee7aa.png)
 
