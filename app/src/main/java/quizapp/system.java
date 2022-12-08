@@ -11,8 +11,6 @@ public class system {
 
     private static system INSTANCE = null;
 
-
-
     protected static system getInstance(){
         if (INSTANCE == null){
             INSTANCE = new system();
@@ -22,6 +20,7 @@ public class system {
     protected system(){
         this.AllCourses = new ArrayList<>();
     }
+
     /**
      * create card to be added.
      * @param front
@@ -69,9 +68,9 @@ public class system {
     }
 
     /**
-     *
+     * Method for deleting a card.
      * @param subject
-
+     * @param card
      */
     protected static void deleteCard(String subject, card card){
         int index = 0;
@@ -124,8 +123,7 @@ public class system {
         }
         return getInstance().AllCourses.get(j);
     }
-
-
+    
 
     /**
      *

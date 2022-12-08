@@ -47,7 +47,6 @@ public class card {
         return front;
     }
 
-
     /**
      * getter for back of card
      * @return the string on the back of the card
