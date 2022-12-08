@@ -55,7 +55,7 @@ public class system {
      * @return returns a new course
      */
 
-    protected static course createCourse(String courseName){
+    protected course createCourse(String courseName){
         course newCourse = new course(courseName);
         getInstance().AllCourses.add(newCourse);
         return newCourse;
@@ -67,7 +67,7 @@ public class system {
      * @param front the front of card to be added
      * @param back the back of card to be added
      */
-    protected static void addToDeck(String subjectName, String front, String back){
+    protected void addToDeck(String subjectName, String front, String back){
         int index = getInstance().AllCourses.indexOf(system.getCourse(subjectName));
         getInstance().AllCourses.get(index).addCard(front, back);
     }
@@ -77,7 +77,7 @@ public class system {
      * getCourseList
      * @return courselist
      */
-    protected static ArrayList getCourseList(){
+    protected ArrayList getCourseList(){
         return getInstance().AllCourses;
     }
 
@@ -170,7 +170,7 @@ public class system {
     protected static void saveState() throws IOException {
         Gson gson = new Gson();
         for(int i = 0; i < getInstance().AllCourses.size(); i++) {
-            flashDeck.saveCardStack(system.getInstance().AllCourses.get(i).courseName, system.getInstance().AllCourses.get(i).questions);
+            flashDeck.saveCardStack(system.getInstance().AllCourses.get(i).getCourseName(), system.getInstance().AllCourses.get(i).questions);
             String jsonString = gson.toJson(system.getInstance().AllCourses.get(i));
             System.out.println("Here:" +jsonString);
         }
@@ -232,9 +232,8 @@ public class system {
      * loads the course instances
      * @throws IOException
      */
-    protected static void loadState() throws IOException {
+    protected void loadState() throws IOException {
         File saveFolder = new File("./saves");
-        Gson gson = new Gson();
         if (saveFolder.exists()) {
             String[] names = saveFolder.list();
             for (String file : names) {

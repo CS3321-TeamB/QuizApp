@@ -116,8 +116,8 @@ public class StartUI extends Application {
         stage.setAlwaysOnTop(true); //This is a hacky way to get the window to pop up.
         stage.setAlwaysOnTop(false);
 
-        system.loadState();
-        courseList = system.getCourseList();
+        system.getInstance().loadState();
+        courseList = system.getInstance().getCourseList();
         courseList.forEach((course) -> subjectList.add(course.getCourseName()));
     }
 
@@ -404,7 +404,7 @@ public class StartUI extends Application {
                 String front = questionField.getText();
                 String back = answerField.getText();
 
-                system.addToDeck((String) subjectDropDown.getValue(), front, back);
+                system.getInstance().addToDeck((String) subjectDropDown.getValue(), front, back);
                 questionField.clear();
                 answerField.clear();
                 questionField.setPromptText("Card added to the " + subjectDropDown.getValue() + " deck.");
@@ -625,7 +625,7 @@ public class StartUI extends Application {
 
         addCourseButton.setOnAction((ActionEvent addCourse) -> {
             if(!addCourseTextField.getText().equals("")) {
-                addCourseTo = system.createCourse(addCourseTextField.getText());
+                addCourseTo = system.getInstance().createCourse(addCourseTextField.getText());
                 subjectList.add(addCourseTo.getCourseName());
                 addCourseTextField.clear();
                 currentCoursesArea.setText(outputCourseNames());
