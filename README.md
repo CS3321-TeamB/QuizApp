@@ -1,6 +1,17 @@
 # QuizApp
 Quiz app, similar to quizlet
 
+## Project Requirements Met
+Project uses shared codebase/repository GitHub for version control and collaborative contributions
+
+Project uses Gradle for configuration management and automatic build
+
+Project includes test code at unit test level (see QuizApp>app>build>reports>tests>test>packages>index.html for test results
+
+Project uses continuous integration tool GitHub Actions and Java CI with Gradle
+
+Project includes documentation including a use0case diagram, interaction models, and design models as shown below.
+
 ## Use Case Diagram
 ![image](https://user-images.githubusercontent.com/90599582/206378437-ad1efd7f-05fd-4eb9-803b-60bd57aee7aa.png)
 
