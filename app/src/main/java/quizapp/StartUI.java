@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
+
 public class StartUI extends Application {
     private final int mainWidth = 500;
     private final int mainHeight = 600;
@@ -49,7 +51,8 @@ public class StartUI extends Application {
     private String currentCourse;
     private int deckIterator = 0;
     private boolean answerButtonClicked = false;
-
+    private card currentCard;
+    private course addCourseTo;
 
     public StartUI() {
         root = new BorderPane();
@@ -76,7 +79,7 @@ public class StartUI extends Application {
         buildStartMenu();
 
         buildAddQuestionsMenu();
-
+        System.out.println(deckIterator);
         buildStudyScreen();
 
         buildAddCourse();
@@ -345,10 +348,14 @@ public class StartUI extends Application {
                 String front = questionField.getText();
                 String back = answerField.getText();
 
-                system.addToDeck((String) subjectDropDown.getValue(), system.createCard(front, back));
+                system.addToDeck((String) subjectDropDown.getValue(), front, back);
                 questionField.clear();
                 answerField.clear();
                 questionField.setPromptText("Card added to the " + subjectDropDown.getValue() + " deck.");
+
+//                for(card test: system.getCourse(currentCourse).questions.cardStack){
+//                    System.out.println("front " + test.getFront() + " back " + test.getBack());
+//                }
             }
         });
 
@@ -371,7 +378,9 @@ public class StartUI extends Application {
     private VBox addStudyScreen() {
         centerHeight = 200;
         centerWidth = 500;
+//        int i = system.getCourse(currentCourse).deckIterator;
         deckIterator = system.deckIterator;
+//        deckIterator = 0;
         int totalCards = 0;
         VBox centerVBox = new VBox();
         VBox cardBox = new VBox();
@@ -412,9 +421,9 @@ public class StartUI extends Application {
 
         if(subjectList.size() !=0) {
 
-           card card = system.getCourse(currentCourse).questions.drawCard(deckIterator);
-            totalCards = system.getCourse(currentCourse).getDeckSize();
-           cardData.setText(quizapp.card.getFront() + totalCards);
+           currentCard = system.getCourse(currentCourse).questions.drawCard(deckIterator);
+           totalCards = system.getCourse(currentCourse).getDeckSize();
+           cardData.setText(currentCard.getFront());
 
            cardAmountText.setText((deckIterator + 1) + "/" + totalCards);
         }else
@@ -435,7 +444,7 @@ public class StartUI extends Application {
 
         removeCardButton.setOnAction((ActionEvent removeCard) -> {
             if (popupYesNoBox("Are you sure you want to remove the card?")) {
-                system.deleteCard(currentCourse, deckIterator);
+                system.deleteCard(currentCourse, currentCard);
                 if (system.isEmpty(currentCourse)) {
                     popupOkBox("There are no cards left for this subject. \n Returning to the main menu");
                 }
@@ -448,13 +457,13 @@ public class StartUI extends Application {
 
         showAnswerButton.setOnAction((ActionEvent showAnswer) -> {
             if (!answerButtonClicked) {
-                cardData.setText(card.getBack());
+                cardData.setText(currentCard.getBack());
                 answerButtonClicked = true;
                 cardTypeText.setText("Answer");
                 showAnswerButton.setText("Show Question");
             }
             else if (answerButtonClicked) {
-                cardData.setText(card.getFront());
+                cardData.setText(currentCard.getFront());
                 answerButtonClicked = false;
                 cardTypeText.setText("Question");
                 showAnswerButton.setText("Show Answer");
@@ -522,8 +531,9 @@ public class StartUI extends Application {
 
         addCourseButton.setOnAction((ActionEvent addCourse) -> {
             if(addCourseTextField.getText() != null){
-                course course = system.createCourse(addCourseTextField.getText());            }
-            subjectList.add(course.courseName);
+               addCourseTo = system.createCourse(addCourseTextField.getText());            }
+            subjectList.add(addCourseTo.getCourseName());
+
             addCourseTextField.clear();
             currentCoursesArea.setText(outputCourseNames());
             addCourseTextField.requestFocus();
