@@ -353,9 +353,6 @@ public class StartUI extends Application {
                 answerField.clear();
                 questionField.setPromptText("Card added to the " + subjectDropDown.getValue() + " deck.");
 
-//                for(card test: system.getCourse(currentCourse).questions.cardStack){
-//                    System.out.println("front " + test.getFront() + " back " + test.getBack());
-//                }
             }
         });
 

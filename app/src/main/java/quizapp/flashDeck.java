@@ -1,15 +1,12 @@
 package quizapp;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
-import java.io.Reader;
 import java.lang.reflect.Type;
 
 import java.nio.file.Files;
@@ -135,6 +132,28 @@ public class flashDeck{
     protected void shuffle(){
         Collections.shuffle(cardStack);
     }
+
+
+
+//    protected static void saveCardStack(String jsonFile, flashDeck cardStack_obj) throws IOException {
+//        File saveFolder = new File("./saves");
+//        if (!saveFolder.exists()) {
+//            saveFolder.mkdirs();
+//        }
+//
+//        Writer writer = new FileWriter("./saves", false);
+//        Gson gson = new GsonBuilder()
+//                .setPrettyPrinting()
+//                .create();
+//        try{
+//            gson.toJson(cardStack_obj, writer); //Not appending to keep file fresh on new save
+//        }catch(Exception IOE){
+////            LOGGER.warn("Unable to write game objects to file to save.");
+//        }
+//        writer.flush();
+//        writer.close();
+////        LOGGER.info("Game was saved");
+//    }
 
 
 
