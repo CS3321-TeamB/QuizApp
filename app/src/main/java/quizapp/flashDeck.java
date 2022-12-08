@@ -27,7 +27,7 @@ public class flashDeck{
     private int totalCards = 0;
     private boolean passStack = false;
     private String subject;
-    static ArrayList<card> cardStack;
+    private ArrayList<card> cardStack;
     private int deckIterator = 0;
 
     /*
@@ -38,6 +38,7 @@ public class flashDeck{
     private static final int STACKSIZE = 100;
 
     //TODO documentation
+
     protected void setIterator(int increment){
         deckIterator += increment;
     }
@@ -68,7 +69,7 @@ public class flashDeck{
         cardStack = new ArrayList<card>(STACKSIZE);
     }
 
-    protected static card getCard(int index){
+    protected card getCard(int index){
         return cardStack.get(index);
     }
     /*may not need this method
@@ -94,7 +95,6 @@ public class flashDeck{
      */
     protected void addCardToDeck(String front, String back){
         card newCard = new card(front, back);
-
         cardStack.add(newCard);
         totalCards +=1;
         for(card test : cardStack){
@@ -123,7 +123,7 @@ public class flashDeck{
      * @param index the index for getting a card from the deck
      * @return a card
      */
-    protected static card drawCard(int index){
+    protected card drawCard(int index){
         return cardStack.get(index);
     }
 
@@ -141,8 +141,8 @@ public class flashDeck{
     public static void saveCardStack(String jsonFile, flashDeck cardStack_obj) throws IOException{
 
         Gson gson = new Gson();
-
         String jsonString = gson.toJson(cardStack_obj);
+        System.out.println("Saving: " + jsonString);
 
         File saveFolder = new File("./saves");
         if (!saveFolder.exists()) {

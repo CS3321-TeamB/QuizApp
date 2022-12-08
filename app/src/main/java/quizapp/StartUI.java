@@ -241,6 +241,12 @@ public class StartUI extends Application {
         });
 
         exitButton.setOnAction((ActionEvent exit) -> {
+            try {
+                system.saveState();
+                System.out.println("Testing Save");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             Platform.exit();
         });
 
@@ -486,12 +492,6 @@ public class StartUI extends Application {
             if (popupYesNoBox("Are you sure you want to go back?")) {
                 buildMainMenu();
                 updateScene(mainMenu);
-                try {
-                    system.saveState();
-                    System.out.println("Testing Save");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
         });
 

@@ -1,5 +1,7 @@
 package quizapp;
 
+import com.google.gson.Gson;
+
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -100,7 +102,7 @@ public class system {
         }
         getInstance().AllCourses.get(j).questions.getIterator();
         int indexOfCurrentCard = getInstance().AllCourses.get(j).questions.getIterator();
-        return flashDeck.drawCard(indexOfCurrentCard + increment);
+        return getInstance().AllCourses.get(j).questions.drawCard(indexOfCurrentCard + increment);
     }
 
 
@@ -123,7 +125,7 @@ public class system {
         }
         return getInstance().AllCourses.get(j);
     }
-    
+
 
     /**
      *
@@ -145,8 +147,11 @@ public class system {
 
 
     protected static void saveState() throws IOException {
+        Gson gson = new Gson();
         for(int i = 0; i < getInstance().AllCourses.size(); i++) {
             flashDeck.saveCardStack(system.getInstance().AllCourses.get(i).courseName, system.getInstance().AllCourses.get(i).questions);
+            String jsonString = gson.toJson(system.getInstance().AllCourses.get(i));
+            System.out.println("Here:" +jsonString);
         }
     }
 
@@ -156,7 +161,12 @@ public class system {
             String[] names = saveFolder.list();
             for (String file : names) {
                 flashDeck deck = flashDeck.loadCardStack(file);
-                createCourse(file);
+                //Create a course with the saved subject.
+                course newCourse = createCourse(deck.getSubject());
+                //Add the cards back.
+                for (int i = 0; i < deck.getTotalCards(); i++) {
+                    newCourse.addCard(deck.getCard(i).getFront(), deck.getCard(i).getBack());
+                }
             }
         }
     }
