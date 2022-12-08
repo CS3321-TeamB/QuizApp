@@ -138,7 +138,6 @@ public class system {
         int j = 0;
         for(int i = 0; i < getInstance().AllCourses.size(); i++){
             if(getInstance().AllCourses.get(i).courseName != courseName1){
-                i++;
                 j = i;
             }
         }
