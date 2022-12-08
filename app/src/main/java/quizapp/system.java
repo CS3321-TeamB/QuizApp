@@ -41,10 +41,8 @@ public class system {
      * @param card
      */
     protected static void addToDeck(String subjectName, card card){
-        for(int i = 0; i < AllCourses.size(); i++){
-            if(AllCourses.get(i).courseName.equals(subjectName));
-                AllCourses.get(i).addCard(card);
-        }
+        system.getCourse(subjectName);
+        course.questions.addCardToDeck(card);
     }
 
 

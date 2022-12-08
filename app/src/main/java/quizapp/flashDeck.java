@@ -60,7 +60,7 @@ public class flashDeck{
      * be a passed card stack.
      */
     protected flashDeck(String course){
-        this.subject = course;
+        subject = course;
         cardStack = new ArrayList<>(STACKSIZE);
     }
 
@@ -77,7 +77,7 @@ public class flashDeck{
      * @param passStack set to true
      */
     protected flashDeck(String course, boolean passStack){
-        this.subject = course;
+        subject = course;
         passStack = true;
         this.passStack = passStack;
         cardStack = new ArrayList<>(STACKSIZE);
@@ -176,12 +176,6 @@ public class flashDeck{
         return null;
     }
 
-    public static void main(String[] args) {
-        flashDeck deck = new flashDeck("MAth");
-
-        System.out.println(deck.cardStack.size());
-
-    }
 }
 
 
