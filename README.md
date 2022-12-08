@@ -1,5 +1,7 @@
 # QuizApp
-Quiz app, similar to quizlet
+
+## Project Description
+This project completed for CS 3321 Intro. to Softw. Eng. is a desktop app called QuizApp. Users can add courses, add questions for those courses, and study those questions in a virtual flashcard format. When adding courses, users can view the courses as they are added in the "Current Courses:" text field. Users can also add questions to specific courses after pressing the "Add Questions" button. Then, once "Start Studying" is pressed and a course is selected, users can navigate the cards by pressing "Next Question" and "Previous Question" buttons. They can reveal the solution of their card by pressing the "Show Answer" button, or revert back to the question by pressing "Show Question". When card contents are mastered, users can remove them from their course by pressing the "Remove Card" button. When users are finished studying, they can press the "Back to Main Menu" button and  their course information and associated cards are saved for the next time they open the program. 
 
 ## Project Requirements Met
 Project uses shared codebase/repository GitHub for version control and collaborative contributions
