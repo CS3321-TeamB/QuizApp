@@ -12,9 +12,9 @@ import java.util.Collections;
 
 
 public class course {
-    protected static String courseName;
-    protected static flashDeck questions;
-
+    protected  String courseName;
+    protected flashDeck questions;
+    static int deckIterator = 0;
 
     /**
      * Constructor for course, creates a new course with
@@ -31,12 +31,16 @@ public class course {
      * @param subject
      * @return
      */
-    protected static flashDeck getDeck(String subject){
+    protected flashDeck getDeck(String subject){
         return questions;
     }
 
-    protected static String getCourseName(){
+    protected String getCourseName(){
         return courseName;
+    }
+
+    protected static int getDeckIterator(){
+        return deckIterator;
     }
 
     protected int getDeckSize(){
@@ -84,8 +88,8 @@ public class course {
      * Method ot add a card to a subject for the course
      * @param card card object for adding to the list
      */
-    protected static void addCard(card card){
-        questions.addCardToDeck(card);
+    protected void addCard(String front, String back){
+        questions.addCardToDeck(front, back);
     }
 
     /**

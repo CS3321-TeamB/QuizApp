@@ -26,9 +26,9 @@ import java.nio.file.Paths;
 public class flashDeck{
     private int totalCards = 0;
     private boolean passStack = false;
-    private static String subject;
+    private String subject;
     static ArrayList<card> cardStack;
-    private static  int deckIterator = 0;
+    private int deckIterator = 0;
 
     /*
     Default MAX size set to 100 for each stack, because
@@ -38,30 +38,34 @@ public class flashDeck{
     private static final int STACKSIZE = 100;
 
     //TODO documentation
-    protected static void setIterator(int increment){
+    protected void setIterator(int increment){
         deckIterator += increment;
     }
 
     protected int getTotalCards(){
         return totalCards;
     }
-    protected static String getSubject(){
+    protected String getSubject(){
         return subject;
     }
     protected boolean getIsPass(){
         return passStack;
     }
-    protected static int getIterator(){return deckIterator;}
+    protected int getIterator(){return deckIterator;}
     /**
      * Default constructor, creates an empty stack of cards
-     * @param course this is the name of the course for
+     *  this is the name of the course for
      * which the user wishes to study for, thus naming the stack
      * Each stack will default initialize with 0 cards and not
      * be a passed card stack.
      */
+    protected flashDeck(){
+        cardStack = new ArrayList<card>(STACKSIZE);
+    }
+
     protected flashDeck(String course){
         subject = course;
-        cardStack = new ArrayList<>(STACKSIZE);
+        cardStack = new ArrayList<card>(STACKSIZE);
     }
 
     protected static card getCard(int index){
@@ -85,12 +89,17 @@ public class flashDeck{
 
     /**
      * Method to add a flash card to the deck
-     * @param card a flash card with a front and
+     * newCard a flash card with a front and
      *             back value
      */
-    protected void addCardToDeck(card card){
-        cardStack.add(card);
+    protected void addCardToDeck(String front, String back){
+        card newCard = new card(front, back);
+
+        cardStack.add(newCard);
         totalCards +=1;
+        for(card test : cardStack){
+           System.out.println(test.getFront());
+       }
     }
 
     /**
