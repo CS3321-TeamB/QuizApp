@@ -14,6 +14,64 @@ Project uses continuous integration tool GitHub Actions and Java CI with Gradle
 
 Project includes documentation including a use0case diagram, interaction models, and design models as shown below.
 
+## Use Case tables
+| UC.0                                       |                                                                                                                               |
+| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
+| User selects Add Course                    |                                                                                                                               |
+|                                            | System displays current courses, System asks for course name                                                                  |
+| User types course name and hits Add Course |                                                                                                                               |
+|                                            | System creates course and adds to overall course list, Course object is created with course name and no initial deck or cards |
+
+| UC.1                                              |                                                                                                                    |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| User selects Add Questions                        |                                                                                                                    |
+|                                                   | System asks which course to add questions to                                                                       |
+| User selects a course                             |                                                                                                                    |
+|                                                   | System provides question and answer text fields                                                                    |
+| User enters question and answer and hits Add Card |                                                                                                                    |
+|                                                   | System adds card information to corresponding course flashDeck, Course creates the card object for use in studying |
+
+| UC.2                        |                                                             |
+| --------------------------- | ----------------------------------------------------------- |
+| User selects Start Studying |                                                             |
+|                             | System asks user to select course                           |
+| User selects a course       |                                                             |
+|                             | System reveals questions associated with that course        |
+| User selects next question  |                                                             |
+|                             | System reveals next question in flashDeck of current course |
+
+| UC.3                           |                                                                 |
+| ------------------------------ | --------------------------------------------------------------- |
+| User selects Start Studying    |                                                                 |
+|                                | System asks user to select course                               |
+| User selects a course          |                                                                 |
+|                                | System reveals questions associated with that course            |
+| User selects Previous question |                                                                 |
+|                                | System reveals previous question in flashDeck of current course |
+
+| UC.4                        |                                                      |
+| --------------------------- | ---------------------------------------------------- |
+| User selects Start Studying |                                                      |
+|                             | System asks user to select course                    |
+| User selects a course       |                                                      |
+|                             | System reveals questions associated with that course |
+| User selects Show Answer    |                                                      |
+|                             | System reveals backside of current card              |
+
+| UC.5                        |                                                      |
+| --------------------------- | ---------------------------------------------------- |
+| User selects Start Studying |                                                      |
+|                             | System asks user to select course                    |
+| User selects a course       |                                                      |
+|                             | System reveals questions associated with that course |
+| User selects Remove Card    |                                                      |
+|                             | System removes card from flashDeck of current course |
+
+| UC.6              |                       |
+| ----------------- | --------------------- |
+| User selects Exit |                       |
+|                   | System closes program |
+
 ## Use Case Diagram
 ![image](https://user-images.githubusercontent.com/90599582/206378437-ad1efd7f-05fd-4eb9-803b-60bd57aee7aa.png)
 
