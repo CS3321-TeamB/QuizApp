@@ -12,7 +12,7 @@ Project includes test code at unit test level (see QuizApp>app>build>reports>tes
 
 Project uses continuous integration tool GitHub Actions and Java CI with Gradle
 
-Project includes documentation including a use0case diagram, interaction models, and design models as shown below.
+Project includes documentation including a use case diagrams, interaction models, and design models as shown below.
 
 ## Use Case tables
 | UC.0                                       |                                                                                                                               |
