@@ -1,6 +1,9 @@
 package quizapp;
 
+import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.io.File;
 
 public class system {
     private static ArrayList<course> AllCourses = new ArrayList<>();
@@ -92,9 +95,12 @@ public class system {
         return AllCourses.get(i);
     }
 
-
+    /**
+     *
+     * @param courseName
+     * @return boolean
+     */
     protected static boolean isEmpty(String courseName) {
-
         if (course.getDeck(courseName).getTotalCards() == 0) {
             return true;
         }
@@ -103,4 +109,21 @@ public class system {
         }
     }
 
+
+    protected static void saveState() throws IOException {
+        for (course course: AllCourses) {
+            flashDeck.saveCardStack(course.courseName, course.questions);
+        }
+    }
+
+    protected static void loadState() throws IOException {
+        File saveFolder = new File("./saves");
+        if (saveFolder.exists()) {
+            String[] names = saveFolder.list();
+            for (String file : names) {
+                flashDeck deck = flashDeck.loadCardStack(file);
+                createCourse(file);
+            }
+        }
+    }
 }

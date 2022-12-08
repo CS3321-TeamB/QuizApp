@@ -135,8 +135,15 @@ public class flashDeck{
 
         String jsonString = gson.toJson(cardStack_obj);
 
+        File saveFolder = new File("./saves");
+        if (!saveFolder.exists()) {
+            saveFolder.mkdirs();
+        }
+
         try {
-            File cStackFile = new File(jsonFile);
+            String savePath = saveFolder + "/" + jsonFile;
+            System.out.println(savePath);
+            File cStackFile = new File(savePath);
 
             FileWriter wr = new FileWriter(cStackFile);
             wr.write(jsonString);
@@ -149,10 +156,12 @@ public class flashDeck{
 
     public static flashDeck loadCardStack(String jsonFile) {
         try {
+            File saveFolder = new File("./saves");
+            String savePath = saveFolder + "/" + jsonFile;
             //create Gson instance
             Gson gson = new Gson();
             //create a reader
-            Reader rd = Files.newBufferedReader(Paths.get(jsonFile));
+            Reader rd = Files.newBufferedReader(Paths.get(String.valueOf(savePath)));
             //set type for cardStack
             Type cardStackType = new TypeToken<flashDeck>(){}.getType();
             //convert JSON string to cardStack object

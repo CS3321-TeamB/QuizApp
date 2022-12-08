@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.Screen;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,10 +44,11 @@ public class StartUI extends Application {
     private String centerColor = "#B5B5B5;";
     private String bottomFrontColor = "#CCCCCC;";
     private String bottomBackColor = "#5D5D5D;";
+    private ArrayList<course> courseList = new ArrayList<>();
     private List<String> subjectList = new ArrayList<>();
     private String currentCourse;
     private int deckIterator = 0;
-    private int answerButtonClicked = 0;
+    private boolean answerButtonClicked = false;
 
 
     public StartUI() {
@@ -95,6 +97,9 @@ public class StartUI extends Application {
         stage.setAlwaysOnTop(true); //This is a hacky way to get the window to pop up.
         stage.setAlwaysOnTop(false);
 
+        system.loadState();
+        courseList = system.getCourseList();
+        courseList.forEach((course) -> subjectList.add(course.getCourseName()));
     }
 
     private void buildMainMenu() {
@@ -402,6 +407,9 @@ public class StartUI extends Application {
         TextArea cardData = new TextArea();
         cardData.setEditable(false);
 
+        buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setSpacing(5);
+
         if(subjectList.size() !=0) {
             card card = system.getCourse(currentCourse).questions.drawCard(deckIterator);
            cardData.setText(card.getFront());
@@ -409,13 +417,17 @@ public class StartUI extends Application {
            cardAmountText.setText((deckIterator + 1) + "/" + totalCards);
         }else
             cardData.setText("No deck chosen");
-        buttonBox.setAlignment(Pos.CENTER);
-        buttonBox.setSpacing(5);
 
         backButton.setOnAction((ActionEvent back) -> {
             if (popupYesNoBox("Are you sure you want to go back?")) {
                 buildMainMenu();
                 updateScene(mainMenu);
+                try {
+                    system.saveState();
+                    System.out.println("Testing Save");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -433,15 +445,15 @@ public class StartUI extends Application {
         });
 
         showAnswerButton.setOnAction((ActionEvent showAnswer) -> {
-            if(answerButtonClicked == 0) {
+            if (!answerButtonClicked) {
                 cardData.setText(card.getBack());
-                answerButtonClicked +=1;
+                answerButtonClicked = true;
                 cardTypeText.setText("Answer");
                 showAnswerButton.setText("Show Question");
             }
-            else if(answerButtonClicked ==1) {
+            else if (answerButtonClicked) {
                 cardData.setText(card.getFront());
-                answerButtonClicked -= 1;
+                answerButtonClicked = false;
                 cardTypeText.setText("Question");
                 showAnswerButton.setText("Show Answer");
             }
