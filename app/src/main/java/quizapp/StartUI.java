@@ -568,7 +568,6 @@ public class StartUI extends Application {
             if(!addCourseTextField.getText().equals("")) {
                 addCourseTo = system.createCourse(addCourseTextField.getText());
                 subjectList.add(addCourseTo.getCourseName());
-
                 addCourseTextField.clear();
                 currentCoursesArea.setText(outputCourseNames());
                 addCourseTextField.requestFocus();
