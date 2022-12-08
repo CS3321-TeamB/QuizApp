@@ -24,7 +24,7 @@ public class flashDeck{
     private int totalCards = 0;
     private boolean passStack = false;
     private String subject;
-    private ArrayList<card> cardStack;
+    ArrayList<card> cardStack;
     private int deckIterator = 0;
 
     /*

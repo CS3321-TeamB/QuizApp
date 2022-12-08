@@ -41,12 +41,11 @@ class courseTest extends Specification {
     }
     def "test removeCard"(){
         given:
-        def course = new course(courseName)
-        course.questions = deck
-        course.addCard("front", "back")
-        course.removeCard(courseName,course.questions.cardStack.get(0))
+        def course1 = new course(courseName)
+        course1.addCard("front", "back")
+        course1.removeCard(courseName, course1.questions.cardStack.get(0))
 
         expect:
-        course.questions.cardStack.isEmpty() == true
+        course1.questions.cardStack.isEmpty()
     }
 }
