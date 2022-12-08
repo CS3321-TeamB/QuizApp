@@ -91,12 +91,8 @@ public class flashDeck{
      */
     protected void addCardToDeck(String front, String back){
         card newCard = new card(front, back);
-
         cardStack.add(newCard);
         totalCards +=1;
-        for(card test : cardStack){
-           System.out.println(test.getFront());
-       }
     }
 
     /**

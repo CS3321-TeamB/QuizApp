@@ -49,6 +49,7 @@ class flashDeckTest extends Specification {
     def "draw from flashDeck"() {
         given:
         def flashDeck = new flashDeck(course)
+
         when:
         for (int i = 0; i < 99; i++) {
             flashDeck.addCardToDeck("front1", "back1")
@@ -59,35 +60,33 @@ class flashDeckTest extends Specification {
         flashDeck.totalCards == 100
         flashDeck.drawCard(99).getFront() == "front2"
     }
-//    def "shuffle test"(){
-//        given:
-//
-//        def flashDeck1 = new flashDeck(course)
-//        def flashDeck2 = new flashDeck(course)
-//        for(int i =0; i < 99; i++){
-//            if (i%3 == 0) {
-//                flashDeck1.addCardToDeck(card1);
-//            }
-//            else if(i%3 == 1){
-//                flashDeck1.addCardToDeck(card2);
-//            }
-//            else {
-//                flashDeck1.addCardToDeck(card3);
-//            }
-//        }
-//        ArrayList list = [1,2,3,4,5]
-//        ArrayList list2 = Collections.shuffle(list)
-//
-//
-//        when:
-//        for(int i =0; i < flashDeck1.totalCards; i++){
-//            flashDeck2.addCardToDeck(flashDeck1.drawCard(i))
-//        }
-//        flashDeck1.shuffle()
-//
-//        then:
-//
-//
-//
-//    }
+    def "shuffle test"(){
+        given:
+
+        def flashDeck1 = new flashDeck(course)
+        def flashDeck2 = new flashDeck(course)
+        String front = "front"
+        String back = "back"
+
+
+
+        for(int i =0; i < 99; i++){
+
+            flashDeck1.addCardToDeck("front "+i, "back "+i);
+
+        }
+
+
+
+        when:
+        for(int i =0; i < flashDeck1.totalCards; i++){
+            flashDeck2.addCardToDeck(flashDeck1.drawCard(i).getFront(),flashDeck1.drawCard(i).getBack())
+        }
+        shuffle()
+
+        then:
+        flashDeck1.cardStack != flashDeck2.cardStack
+
+
+    }
 }
