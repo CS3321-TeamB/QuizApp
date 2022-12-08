@@ -59,8 +59,8 @@ public class course {
      * @param indexOfCard
      * @return
      */
-    protected static card drawCard(int indexOfCard){
-       return flashDeck.drawCard(indexOfCard);
+    protected card drawCard(int indexOfCard){
+       return questions.drawCard(indexOfCard);
     }
 
 
