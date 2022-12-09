@@ -54,42 +54,6 @@ public class course {
         return questions.getTotalCards();
     }
 
-    /**
-     * method for drawing a card
-     * @param indexOfCard
-     * @return
-     */
-    protected card drawCard(int indexOfCard){
-       return questions.drawCard(indexOfCard);
-    }
-
-
-//    /**
-//     * Method for adding a new subject for a given course
-//     * Requires a name and adds a new stack of cards for this
-//     * course
-//     * @param name String name of subject
-//     */
-//    protected static void newSubject(String name){
-//        flashDeck subject = new flashDeck(name);
-//        subjects.add(subject);
-//    }
-
-
-//    /**
-//     * Method for getting the index of the chosen subject in
-//     * the list of subjects for a given course
-//     * @param subject String of subject name of desired subject
-//     * @return
-//     */
-//    protected static int getIndex(String subject){
-//        for(int i = 0; i < questions.getTotalCards(); i++){
-//            if(questions.get.getSubject().equals(subject)){
-//                return 1;
-//            }
-//        }
-//        return -1; //subject not found
-//    }
 
     /**
      * Method ot add a card to a subject for the course
@@ -108,23 +72,4 @@ public class course {
         questions.removeCard(card);
     }
 
-//    protected static void saveCourse(String jsonFile, course course_obj) throws IOException {
-//        File saveFolder = new File("./saves");
-//        if (!saveFolder.exists()) {
-//            saveFolder.mkdirs();
-//        }
-//
-//        Writer writer = new FileWriter("./saves", false);
-//        Gson gson = new GsonBuilder()
-//                .setPrettyPrinting()
-//                .create();
-//        try{
-//            gson.toJson(course_obj, writer); //Not appending to keep file fresh on new save
-//        }catch(Exception IOE){
-////            LOGGER.warn("Unable to write game objects to file to save.");
-//        }
-//        writer.flush();
-//        writer.close();
-////        LOGGER.info("Game was saved");
-//    }
 }

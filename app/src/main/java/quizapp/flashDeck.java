@@ -34,7 +34,12 @@ public class flashDeck{
      */
     private static final int STACKSIZE = 100;
 
-    //TODO documentation
+
+    protected flashDeck(String course){
+        subject = course;
+        cardStack = new ArrayList<card>(STACKSIZE);
+    }
+
 
     protected void setIterator(int increment){
         deckIterator += increment;
@@ -44,27 +49,22 @@ public class flashDeck{
         return totalCards;
     }
     protected String getSubject(){
-        return subject;
+        return this.subject;
     }
-    protected boolean getIsPass(){
-        return passStack;
-    }
-    protected int getIterator(){return deckIterator;}
-    /**
-     * Default constructor, creates an empty stack of cards
-     *  this is the name of the course for
-     * which the user wishes to study for, thus naming the stack
-     * Each stack will default initialize with 0 cards and not
-     * be a passed card stack.
-     */
-    protected flashDeck(){
-        cardStack = new ArrayList<card>(STACKSIZE);
-    }
-
-    protected flashDeck(String course){
-        subject = course;
-        cardStack = new ArrayList<card>(STACKSIZE);
-    }
+//    protected boolean getIsPass(){
+//        return passStack;
+//    }
+//    protected int getIterator(){return deckIterator;}
+//    /**
+//     * Default constructor, creates an empty stack of cards
+//     *  this is the name of the course for
+//     * which the user wishes to study for, thus naming the stack
+//     * Each stack will default initialize with 0 cards and not
+//     * be a passed card stack.
+//     */
+//    protected flashDeck(){
+//        cardStack = new ArrayList<card>(STACKSIZE);
+//    }
 
     protected card getCard(int index){
         return cardStack.get(index);
@@ -121,53 +121,18 @@ public class flashDeck{
         return cardStack.get(index);
     }
 
-    /**
-     * Shuffle method in case the user wishes to shuffle
-     * the stack of cards to change the order in which
-     * they are studying them
-     */
-    protected void shuffle(){
-        Collections.shuffle(cardStack);
-    }
 
-
-
-//    protected static void saveCardStack(String jsonFile, flashDeck cardStack_obj) throws IOException {
-//        File saveFolder = new File("./saves");
-//        if (!saveFolder.exists()) {
-//            saveFolder.mkdirs();
-//        }
-//
-//        Writer writer = new FileWriter("./saves", false);
-//        Gson gson = new GsonBuilder()
-//                .setPrettyPrinting()
-//                .create();
-//        try{
-//            gson.toJson(cardStack_obj, writer); //Not appending to keep file fresh on new save
-//        }catch(Exception IOE){
-////            LOGGER.warn("Unable to write game objects to file to save.");
-//        }
-//        writer.flush();
-//        writer.close();
-////        LOGGER.info("Game was saved");
-//    }
-
-
-
-    public static void saveCardStack(String jsonFile, flashDeck cardStack_obj) throws IOException{
+    public static void saveCardStack(String jsonFile, course course_obj) throws IOException{
 
         Gson gson = new Gson();
-        String jsonString = gson.toJson(cardStack_obj);
-        System.out.println("Saving: " + jsonString);
-
-        File saveFolder = new File("./saves");
+        String jsonString = gson.toJson(course_obj);
+        File saveFolder = new File("./app/saves");
         if (!saveFolder.exists()) {
             saveFolder.mkdirs();
         }
 
         try {
             String savePath = saveFolder + "/" + jsonFile;
-            System.out.println(savePath);
             File cStackFile = new File(savePath);
 
             FileWriter wr = new FileWriter(cStackFile);
@@ -179,18 +144,18 @@ public class flashDeck{
         }
     }
 
-    public static flashDeck loadCardStack(String jsonFile) {
+    public static course loadCardStack(String jsonFile) {
         try {
-            File saveFolder = new File("./saves");
+            File saveFolder = new File("./app/saves");
             String savePath = saveFolder + "/" + jsonFile;
             //create Gson instance
             Gson gson = new Gson();
             //create a reader
             Reader rd = Files.newBufferedReader(Paths.get(String.valueOf(savePath)));
             //set type for cardStack
-            Type cardStackType = new TypeToken<flashDeck>(){}.getType();
+            Type cardStackType = new TypeToken<course>(){}.getType();
             //convert JSON string to cardStack object
-            flashDeck cardStack_obj = gson.fromJson(rd, cardStackType);
+            course cardStack_obj = gson.fromJson(rd, cardStackType);
             //close reader
             rd.close();
 

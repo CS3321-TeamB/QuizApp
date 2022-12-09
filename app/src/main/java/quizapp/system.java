@@ -2,26 +2,20 @@ package quizapp;
 
 import com.google.gson.Gson;
 import java.io.IOException;
-import com.google.gson.GsonBuilder;
 import java.io.*;
-import java.lang.reflect.Array;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class system {
     private final ArrayList<course> AllCourses;
     static int deckIterator = 0;
-
     private static system INSTANCE = null;
 
 
     /**
      * Singleton instance of system since there should
      * only ever be 1 instance
-     * @return
+     * @return system
      */
-
-
     protected static system getInstance(){
         if (INSTANCE == null){
             INSTANCE = new system();
@@ -74,15 +68,6 @@ public class system {
 
 
     /**
-     * getCourseList
-     * @return courselist
-     */
-    protected static ArrayList getCourseList(){
-        return getInstance().AllCourses;
-    }
-
-
-    /**
      * MEthod for deleting card from the deck
      * @param subject  course name
      * @param card card to be removed
@@ -93,41 +78,6 @@ public class system {
         getInstance().AllCourses.get(index).removeCard(subject, card);
     }
 
-    /**
-     * Method to draw cards
-     * @param subject course name to draw from
-     * @param increment increments up or down depending on
-     *                  whether the user wants to go forward or
-     *                  backward for studying
-     * @return  returns card from flashDeck
-     */
-    protected static card drawCard(String subject, int increment){
-        int j = 0;
-        for(int i = 0; i < getInstance().AllCourses.size(); i++){
-            if(getInstance().AllCourses.get(i).courseName != subject){
-                i++;
-                j = i;
-            }
-        }
-        getInstance().AllCourses.get(j).questions.getIterator();
-        int indexOfCurrentCard = getInstance().AllCourses.get(j).questions.getIterator();
-        return getInstance().AllCourses.get(j).questions.drawCard(indexOfCurrentCard + increment);
-    }
-
-    /**
-     * gets index of course
-     * @param courseName1 the name of the course we want to index
-     * @return index of courseName1 in AllCourses Array
-     */
-    protected static int getIndex(String courseName1) {
-        int index = -1;
-        for (int i = 0; i < getInstance().AllCourses.size(); i++) {
-            if (getInstance().AllCourses.get(i).courseName != courseName1) {
-                index = i;
-            }
-        }
-        return index;
-    }
 
     /**
      * Method to get the course wanted by its string name
@@ -137,11 +87,20 @@ public class system {
     protected static course getCourse(String courseName1){
         int j = 0;
         for(int i = 0; i < getInstance().AllCourses.size(); i++){
-            if(getInstance().AllCourses.get(i).courseName != courseName1){
+            if(getInstance().AllCourses.get(i).getCourseName() != courseName1){
                 j = i;
             }
         }
         return getInstance().AllCourses.get(j);
+    }
+
+
+    /**
+     * getCourseList
+     * @return courselist
+     */
+    protected static ArrayList getCourseList(){
+        return getInstance().AllCourses;
     }
 
 
@@ -151,15 +110,6 @@ public class system {
      * @return boolean
      */
     protected static boolean isEmpty(String courseName) {
-//        getCourse(courseName).getDeckSize() ==0
-
-//        for(int i = 0; i < getInstance().AllCourses.size(); i++) {
-//            if (getInstance().AllCourses.get(i).courseName != courseName) {
-//                i++;
-//                j = i;
-//            }
-//        }
-//        return getInstance().AllCourses.get(j).getDeck(courseName).getTotalCards() == 0;
         return getCourse(courseName).getDeckSize() == 0;
     }
 
@@ -168,82 +118,22 @@ public class system {
      * @throws IOException
      */
     protected static void saveState() throws IOException {
-        Gson gson = new Gson();
         for(int i = 0; i < getInstance().AllCourses.size(); i++) {
-            flashDeck.saveCardStack(system.getInstance().AllCourses.get(i).courseName, system.getInstance().AllCourses.get(i).questions);
-            String jsonString = gson.toJson(system.getInstance().AllCourses.get(i));
-            System.out.println("Here:" +jsonString);
+            flashDeck.saveCardStack(system.getInstance().AllCourses.get(i).getCourseName(), system.getInstance().AllCourses.get(i));
         }
     }
 
-
-//    protected static void saveState() throws IOException {
-//        File saveFolder = new File("./saves");
-//        if (!saveFolder.exists()) {
-//            saveFolder.mkdirs();
-//        }
-//
-//        Writer writer = new FileWriter("./saves", false);
-//        Gson gson = new GsonBuilder()
-//                .setPrettyPrinting()
-//                .create();
-//        try{
-//            gson.toJson(getInstance(), writer); //Not appending to keep file fresh on new save
-//        }catch(Exception IOE){
-////            LOGGER.warn("Unable to write game objects to file to save.");
-//        }
-//        writer.flush();
-//        writer.close();
-////        LOGGER.info("Game was saved");
-//    }
-
-//    public static void saveState() throws IOException{
-//
-//        Gson gson = new Gson();
-//
-//        String jsonString = gson.toJson(getInstance());
-//
-//        File saveFolder = new File("./saves");
-//        if (!saveFolder.exists()) {
-//            saveFolder.mkdirs();
-//        }
-//
-//        try {
-//            for(course course : getInstance().AllCourses) {
-//                String jsonFile = course.courseName;
-//                String savePath = saveFolder + "/" + jsonFile;
-//                System.out.println(savePath);
-//                File cStackFile = new File(savePath);
-//
-//                FileWriter wr = new FileWriter(cStackFile);
-//                wr.write(jsonString);
-//                wr.close();
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//
-//
-//
-//
     /**
      * loads the course instances
      * @throws IOException
      */
     protected static void loadState() throws IOException {
         File saveFolder = new File("./saves");
-        Gson gson = new Gson();
         if (saveFolder.exists()) {
-            String[] names = saveFolder.list();
-            for (String file : names) {
-                flashDeck deck = flashDeck.loadCardStack(file);
-                //Create a course with the saved subject.
-                course newCourse = createCourse(deck.getSubject());
-                //Add the cards back.
-                for (int i = 0; i < deck.getTotalCards(); i++) {
-                    newCourse.addCard(deck.getCard(i).getFront(), deck.getCard(i).getBack());
+            if (!(saveFolder.list().length == 0)) {
+                String[] names = saveFolder.list();
+                for (String file : names) {
+                    getInstance().AllCourses.add(flashDeck.loadCardStack(file));
                 }
             }
         }

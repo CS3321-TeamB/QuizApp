@@ -48,7 +48,7 @@ public class StartUI extends Application {
     private final String bottomFrontColor = "#CCCCCC;";
     private final String bottomBackColor = "#5D5D5D;";
     private ArrayList<course> courseList = new ArrayList<>();
-    private final List<String> subjectList = new ArrayList<>();
+    private List<String> subjectList = new ArrayList<>();
     private String currentCourse;
     private int deckIterator = 0;
     private int totalCards = 0;
@@ -95,7 +95,6 @@ public class StartUI extends Application {
         buildStartMenu();
 
         buildAddQuestionsMenu();
-        System.out.println(deckIterator);
         buildStudyScreen();
 
         buildAddCourse();
@@ -118,7 +117,14 @@ public class StartUI extends Application {
 
         system.loadState();
         courseList = system.getCourseList();
-        courseList.forEach((course) -> subjectList.add(course.getCourseName()));
+        if (!(courseList.isEmpty())) {
+            courseList = system.getCourseList();
+            for (course name: courseList) {
+                if (!(name == null)) {
+                    subjectList.add(name.courseName);
+                }
+            }
+        }
     }
 
     /**
@@ -243,7 +249,6 @@ public class StartUI extends Application {
         exitButton.setOnAction((ActionEvent exit) -> {
             try {
                 system.saveState();
-                System.out.println("Testing Save");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -345,6 +350,73 @@ public class StartUI extends Application {
 
         return centerHBox;
     }
+
+
+    /**
+     * Method for adding the "addCourse" menu.
+     * @return VBox
+     */
+    private VBox addCourseMenu() {
+        centerHeight = 200;
+        centerWidth = 500;
+        VBox centerVBox = new VBox();
+        HBox textBox = new HBox();
+        VBox textFieldBox = new VBox();
+        HBox buttonBox = new HBox();
+
+        centerVBox.setBorder(border);
+        centerVBox.setAlignment(Pos.CENTER);
+        centerVBox.setStyle("-fx-background-color:" + centerColor);
+        centerVBox.setSpacing(10);
+        centerVBox.setPadding(new Insets(5, 0, 5, 0));
+        buttonBox.setAlignment(Pos.CENTER);
+        buttonBox.setSpacing(10);
+
+        textBox.setAlignment(Pos.CENTER);
+        textFieldBox.setAlignment(Pos.CENTER);
+        textFieldBox.setSpacing(10);
+        textFieldBox.setPadding(new Insets(0, 10, 0, 10));
+        textFieldBox.setMaxWidth(500);
+
+        Text addCourseText = new Text("Enter the new course name:");
+        TextField addCourseTextField = new TextField();
+        Text currentCoursesText = new Text("Current Courses:");
+        TextArea currentCoursesArea = new TextArea();
+
+        addCourseTextField.setMaxWidth(200);
+        currentCoursesArea.setEditable(false);
+
+        // Populates the current courses text area.
+        currentCoursesArea.setText(outputCourseNames());
+
+        Button addCourseButton = new Button("Add Course");
+        Button backButton = new Button("Back");
+
+        backButton.setOnAction((ActionEvent back) -> {
+            buildMainMenu();
+            updateScene(mainMenu);
+        });
+
+        addCourseButton.setOnAction((ActionEvent addCourse) -> {
+            if(!addCourseTextField.getText().equals("")) {
+                system.createCourse(addCourseTextField.getText());
+                subjectList.add(addCourseTextField.getText());
+                addCourseTextField.clear();
+                currentCoursesArea.setText(outputCourseNames());
+                addCourseTextField.requestFocus();
+            }
+            else {
+                addCourseTextField.setPromptText("Please enter a course name.");
+            }
+        });
+
+        textBox.getChildren().addAll(addCourseText);
+        textFieldBox.getChildren().addAll(addCourseTextField, currentCoursesText, currentCoursesArea);
+        buttonBox.getChildren().addAll(addCourseButton, backButton);
+        centerVBox.getChildren().addAll(textBox, textFieldBox, buttonBox);
+        return centerVBox;
+    }
+
 
     /**
      * Method for adding the "add Questions" menu.
@@ -499,7 +571,6 @@ public class StartUI extends Application {
         removeCardButton.setOnAction((ActionEvent removeCard) -> {
             if (popupYesNoBox("Are you sure you want to remove the card?")) {
                 system.deleteCard(currentCourse, currentCard);
-                System.out.println("Iterator: " + deckIterator + " Total Cards: " + totalCards);
                 totalCards = system.getCourse(currentCourse).getDeckSize();
                 if (deckIterator == totalCards) {
                     deckIterator--;
@@ -578,70 +649,6 @@ public class StartUI extends Application {
         return centerVBox;
     }
 
-    /**
-     * Method for adding the "addCourse" menu.
-     * @return VBox
-     */
-    private VBox addCourseMenu() {
-        centerHeight = 200;
-        centerWidth = 500;
-        VBox centerVBox = new VBox();
-        HBox textBox = new HBox();
-        VBox textFieldBox = new VBox();
-        HBox buttonBox = new HBox();
-
-        centerVBox.setBorder(border);
-        centerVBox.setAlignment(Pos.CENTER);
-        centerVBox.setStyle("-fx-background-color:" + centerColor);
-        centerVBox.setSpacing(10);
-        centerVBox.setPadding(new Insets(5, 0, 5, 0));
-        buttonBox.setAlignment(Pos.CENTER);
-        buttonBox.setSpacing(10);
-
-        textBox.setAlignment(Pos.CENTER);
-        textFieldBox.setAlignment(Pos.CENTER);
-        textFieldBox.setSpacing(10);
-        textFieldBox.setPadding(new Insets(0, 10, 0, 10));
-        textFieldBox.setMaxWidth(500);
-
-        Text addCourseText = new Text("Enter the new course name:");
-        TextField addCourseTextField = new TextField();
-        Text currentCoursesText = new Text("Current Courses:");
-        TextArea currentCoursesArea = new TextArea();
-
-        addCourseTextField.setMaxWidth(200);
-        currentCoursesArea.setEditable(false);
-
-        // Populates the current courses text area.
-        currentCoursesArea.setText(outputCourseNames());
-
-        Button addCourseButton = new Button("Add Course");
-        Button backButton = new Button("Back");
-
-        backButton.setOnAction((ActionEvent back) -> {
-            buildMainMenu();
-            updateScene(mainMenu);
-        });
-
-        addCourseButton.setOnAction((ActionEvent addCourse) -> {
-            if(!addCourseTextField.getText().equals("")) {
-                addCourseTo = system.createCourse(addCourseTextField.getText());
-                subjectList.add(addCourseTo.getCourseName());
-                addCourseTextField.clear();
-                currentCoursesArea.setText(outputCourseNames());
-                addCourseTextField.requestFocus();
-            }
-            else {
-                addCourseTextField.setPromptText("Please enter a course name.");
-            }
-        });
-
-        textBox.getChildren().addAll(addCourseText);
-        textFieldBox.getChildren().addAll(addCourseTextField, currentCoursesText, currentCoursesArea);
-        buttonBox.getChildren().addAll(addCourseButton, backButton);
-        centerVBox.getChildren().addAll(textBox, textFieldBox, buttonBox);
-        return centerVBox;
-    }
 
     /**
      * Method for returning the course names.
