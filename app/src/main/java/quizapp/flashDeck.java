@@ -123,7 +123,6 @@ public class flashDeck{
 
 
     public static void saveCardStack(String jsonFile, course course_obj) throws IOException{
-        System.out.println(System.getProperty("user.dir") + "/saves");
         Gson gson = new Gson();
         String jsonString = gson.toJson(course_obj);
         File saveFolder = new File(System.getProperty("user.dir") + "/saves");
@@ -140,7 +139,6 @@ public class flashDeck{
             wr.close();
 
         } catch (IOException e) {
-            System.out.println("Program go brrrr");
             e.printStackTrace();
         }
     }
