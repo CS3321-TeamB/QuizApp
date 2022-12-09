@@ -60,33 +60,4 @@ class flashDeckTest extends Specification {
         flashDeck.totalCards == 100
         flashDeck.drawCard(99).getFront() == "front2"
     }
-    def "shuffle test"(){
-        given:
-
-        def flashDeck1 = new flashDeck(course)
-        def flashDeck2 = new flashDeck(course)
-        String front = "front"
-        String back = "back"
-
-
-
-        for(int i =0; i < 99; i++){
-
-            flashDeck1.addCardToDeck("front "+i, "back "+i);
-
-        }
-
-
-
-        when:
-        for(int i =0; i < flashDeck1.totalCards; i++){
-            flashDeck2.addCardToDeck(flashDeck1.drawCard(i).getFront(),flashDeck1.drawCard(i).getBack())
-        }
-        shuffle()
-
-        then:
-        flashDeck1.cardStack != flashDeck2.cardStack
-
-
-    }
 }
