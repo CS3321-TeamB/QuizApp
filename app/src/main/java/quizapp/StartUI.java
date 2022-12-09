@@ -463,6 +463,8 @@ public class StartUI extends Application {
         answerField.setPrefHeight(200);
         questionField.setBorder(border);
         answerField.setBorder(border);
+        questionField.setWrapText(true);
+        answerField.setWrapText(true);
 
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setPadding(new Insets(10, 0, 10, 0));
@@ -548,6 +550,7 @@ public class StartUI extends Application {
         Text cardAmountText = new Text();
         TextArea cardData = new TextArea();
         cardData.setEditable(false);
+        cardData.setWrapText(true);
 
         buttonBox.setAlignment(Pos.CENTER);
         buttonBox.setSpacing(5);
