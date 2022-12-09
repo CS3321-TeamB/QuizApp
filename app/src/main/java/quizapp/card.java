@@ -11,40 +11,12 @@ package quizapp;
 public class card {
     private String front;
     private String back;
-    private boolean isHard = false;
-    private boolean pass = false;
-    private boolean starred = false;   //in case we want to have users be able to increase priority of card
-    private int priority = 0;          //TODO 0 priority being default maybe 5 is the lowest priority or something like that
-    private static String staticFront, staticBack;
-
-
-    //TODO finish setters and getters
-
-    protected void setStarred(boolean bool){
-        this.starred = bool;
-    }
-
-    protected void setPriority(int priority){
-        this.priority = priority;
-    }
-
-    protected int getPriority(){
-        return priority;
-    }
-
-    /**
-     * getter for starred
-     * @return if starred, user wishes to study more
-     */
-    protected boolean getStarred() {return starred;}
 
     /**
      * getter for front of card
      * @return the string on the front of the card
      */
-    protected String getFront() {
-
-        return front;
+    protected String getFront() {return front;
     }
 
     /**
@@ -53,22 +25,6 @@ public class card {
      */
     protected String getBack() {
         return this.back;
-    }
-
-    /**
-     * getter for difficulty settting of card
-     * @return is true or false (true for is hard mode)
-     */
-    protected boolean getHard() {
-        return isHard;
-    }
-
-    /**
-     * getter for if the card has been successfully studyied
-     * @return pass as boolean, true for successfully passing
-     */
-    protected boolean getPass() {
-        return pass;
     }
 
     /**
