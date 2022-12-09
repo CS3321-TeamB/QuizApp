@@ -63,7 +63,8 @@ public class system {
      */
     protected static void addToDeck(String subjectName, String front, String back){
         int index = getInstance().AllCourses.indexOf(system.getCourse(subjectName));
-        getInstance().AllCourses.get(index).addCard(front, back);
+        card newCard = new card(front, back);
+        getInstance().AllCourses.get(index).addCard(newCard);
     }
 
 

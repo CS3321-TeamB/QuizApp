@@ -59,8 +59,8 @@ public class course {
      * Method ot add a card to a subject for the course
      * card card object for adding to the list
      */
-    protected void addCard(String front, String back){
-        questions.addCardToDeck(front, back);
+    protected void addCard(card newCard){
+        questions.addCardToDeck(newCard);
     }
 
     /**

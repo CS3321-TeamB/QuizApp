@@ -2,13 +2,10 @@ package quizapp;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-
 import java.lang.reflect.Type;
-
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -22,67 +19,35 @@ import java.nio.file.Paths;
 
 public class flashDeck{
     private int totalCards = 0;
-    private boolean passStack = false;
     private String subject;
     ArrayList<card> cardStack;
     private int deckIterator = 0;
-
-    /*
-    Default MAX size set to 100 for each stack, because
-    who needs more than 100 cards for a single class amirite.
-    This can be adjusted later should we decide to change it
-     */
     private static final int STACKSIZE = 100;
 
 
+    /**
+     * Constructor for creating a new flash card deck
+     * @param course The course name associated with the
+     *               deck
+     */
     protected flashDeck(String course){
         subject = course;
         cardStack = new ArrayList<card>(STACKSIZE);
     }
 
-
     protected void setIterator(int increment){
         deckIterator += increment;
     }
 
-    protected int getTotalCards(){
-        return totalCards;
-    }
-    protected String getSubject(){
-        return this.subject;
-    }
-//    protected boolean getIsPass(){
-//        return passStack;
-//    }
-//    protected int getIterator(){return deckIterator;}
-//    /**
-//     * Default constructor, creates an empty stack of cards
-//     *  this is the name of the course for
-//     * which the user wishes to study for, thus naming the stack
-//     * Each stack will default initialize with 0 cards and not
-//     * be a passed card stack.
-//     */
-//    protected flashDeck(){
-//        cardStack = new ArrayList<card>(STACKSIZE);
-//    }
+    /**
+     * getters for flash deck attributes
+     */
+
+    protected int getTotalCards(){return totalCards;}
+    protected String getSubject(){return this.subject;}
 
     protected card getCard(int index){
         return cardStack.get(index);
-    }
-    /*may not need this method
-     */
-
-    /**
-     * constrcutor to allow system to create a passed stack of the
-     * same course name. May not be needed in future iteration
-     * @param course course name
-     * @param passStack set to true
-     */
-    protected flashDeck(String course, boolean passStack){
-        subject = course;
-        passStack = true;
-        this.passStack = passStack;
-        cardStack = new ArrayList<>(STACKSIZE);
     }
 
     /**
@@ -90,8 +55,7 @@ public class flashDeck{
      * newCard a flash card with a front and
      *             back value
      */
-    protected void addCardToDeck(String front, String back){
-        card newCard = new card(front, back);
+    protected void addCardToDeck(card newCard){
         cardStack.add(newCard);
         totalCards +=1;
     }
@@ -106,9 +70,7 @@ public class flashDeck{
         int index = cardStack.indexOf(card);
         totalCards -= 1;
         return cardStack.remove(index);
-
     }
-
 
     /**
      * Draw card. returns the card at the index supplied
@@ -121,6 +83,13 @@ public class flashDeck{
         return cardStack.get(index);
     }
 
+
+    /**
+     * Save method for saving the flash card deck
+     * @param jsonFile
+     * @param course_obj
+     * @throws IOException
+     */
 
     public static void saveCardStack(String jsonFile, course course_obj) throws IOException{
         Gson gson = new Gson();
@@ -143,6 +112,11 @@ public class flashDeck{
         }
     }
 
+    /**
+     * loading method
+     * @param jsonFile
+     * @return
+     */
     public static course loadCardStack(String jsonFile) {
         try {
             File saveFolder = new File(System.getProperty("user.dir") + "/saves");
