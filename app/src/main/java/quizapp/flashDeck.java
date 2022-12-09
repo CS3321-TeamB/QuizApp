@@ -123,10 +123,10 @@ public class flashDeck{
 
 
     public static void saveCardStack(String jsonFile, course course_obj) throws IOException{
-
+        System.out.println(System.getProperty("user.dir") + "/saves");
         Gson gson = new Gson();
         String jsonString = gson.toJson(course_obj);
-        File saveFolder = new File("./app/saves");
+        File saveFolder = new File(System.getProperty("user.dir") + "/saves");
         if (!saveFolder.exists()) {
             saveFolder.mkdirs();
         }
@@ -140,13 +140,14 @@ public class flashDeck{
             wr.close();
 
         } catch (IOException e) {
+            System.out.println("Program go brrrr");
             e.printStackTrace();
         }
     }
 
     public static course loadCardStack(String jsonFile) {
         try {
-            File saveFolder = new File("./app/saves");
+            File saveFolder = new File(System.getProperty("user.dir") + "/saves");
             String savePath = saveFolder + "/" + jsonFile;
             //create Gson instance
             Gson gson = new Gson();

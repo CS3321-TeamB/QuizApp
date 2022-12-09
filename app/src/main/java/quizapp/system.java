@@ -63,6 +63,8 @@ public class system {
      */
     protected static void addToDeck(String subjectName, String front, String back){
         int index = getInstance().AllCourses.indexOf(system.getCourse(subjectName));
+        System.out.println("Index: " + index);
+        System.out.println("Subject we want: " + subjectName + " Subject we got: " + getInstance().AllCourses.get(index).courseName);
         getInstance().AllCourses.get(index).addCard(front, back);
     }
 
@@ -85,13 +87,11 @@ public class system {
      * @return returns the course object
      */
     protected static course getCourse(String courseName1){
-        int j = 0;
-        for(int i = 0; i < getInstance().AllCourses.size(); i++){
-            if(getInstance().AllCourses.get(i).getCourseName() != courseName1){
-                j = i;
-            }
+        int i = 0;
+        while (!getInstance().AllCourses.get(i).getCourseName().equals(courseName1)){
+            i++;
         }
-        return getInstance().AllCourses.get(j);
+        return getInstance().AllCourses.get(i);
     }
 
 
