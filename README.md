@@ -8,11 +8,19 @@ Project uses shared codebase/repository GitHub for version control and collabora
 
 Project uses Gradle for configuration management and automatic build
 
+<<<<<<< HEAD
 Project includes test code at unit test level (see QuizApp>app>build>reports>tests>test>packages>index.html for test results)
 
 Project uses continuous integration tool GitHub Actions and Java CI with Gradle
 
 Project includes documentation including a use case diagrams, interaction models, and design models as shown below.
+=======
+Project includes test code at unit test level (see QuizApp>app>build>reports>tests>test>packages>index.html for test results
+
+Project uses continuous integration tool GitHub Actions and Java CI with Gradle
+
+Project includes documentation including a use0case diagram, interaction models, and design models as shown below.
+>>>>>>> release/1.0.0
 
 ## Use Case tables
 | UC.0                                       |                                                                                                                               |

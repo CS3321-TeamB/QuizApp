@@ -1,5 +1,12 @@
 package quizapp;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
 /**
@@ -12,9 +19,9 @@ import java.util.Collections;
 
 
 public class course {
-    protected String courseName;
-    protected ArrayList<flashDeck> subjects;
-
+    protected  String courseName;
+    protected flashDeck questions;
+    static int deckIterator = 0;
 
     /**
      * Constructor for course, creates a new course with
@@ -22,44 +29,38 @@ public class course {
      * @param name
      */
     protected course(String name){
-        this.courseName = name;
-        subjects = new ArrayList<flashDeck>();
+        courseName = name;
+        questions = new flashDeck(name);
     }
 
     /**
-     * Method for adding a new subject for a given course
-     * Requires a name and adds a new stack of cards for this
-     * course
-     * @param name String name of subject
-     */
-    protected void newSubject(String name){
-        flashDeck subject = new flashDeck(name);
-        subjects.add(subject);
-    }
-
-
-    /**
-     * Method for getting the index of the chosen subject in
-     * the list of subjects for a given course
-     * @param subject String of subject name of desired subject
+     *
+     * @param subject
      * @return
      */
-    protected int getIndex(String subject){
-        for(int i = 0; i < subjects.size(); i++){
-            if(subjects.get(i).getSubject().equals(subject)){
-                return 1;
-            }
-        }
-        return -1; //subject not found
+    protected flashDeck getDeck(String subject){
+        return questions;
     }
+
+    protected String getCourseName(){
+        return courseName;
+    }
+
+    protected static int getDeckIterator(){
+        return deckIterator;
+    }
+
+    protected int getDeckSize(){
+        return questions.getTotalCards();
+    }
+
 
     /**
      * Method ot add a card to a subject for the course
-     * @param subject string of subject name
-     * @param card card object for adding to the list
+     * card card object for adding to the list
      */
-    protected void addCard(String subject, card card){
-        subjects.get(getIndex(subject)).addCard(card);
+    protected void addCard(String front, String back){
+        questions.addCardToDeck(front, back);
     }
 
     /**
@@ -68,6 +69,7 @@ public class course {
      * @param card card object for removing the list
      */
     protected void removeCard(String subject, card card){
-        subjects.get(getIndex(subject)).removeCard(card);
+        questions.removeCard(card);
     }
+
 }

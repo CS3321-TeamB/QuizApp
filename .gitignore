@@ -30,3 +30,6 @@ build
 
 # ignore vscode settings directory
 .vscode
+
+# Ignore the .idea folder
+.idea

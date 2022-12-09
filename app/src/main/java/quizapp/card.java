@@ -9,11 +9,13 @@ package quizapp;
  */
 
 public class card {
-    private String front, back;
+    private String front;
+    private String back;
     private boolean isHard = false;
     private boolean pass = false;
     private boolean starred = false;   //in case we want to have users be able to increase priority of card
     private int priority = 0;          //TODO 0 priority being default maybe 5 is the lowest priority or something like that
+    private static String staticFront, staticBack;
 
 
     //TODO finish setters and getters
@@ -41,6 +43,7 @@ public class card {
      * @return the string on the front of the card
      */
     protected String getFront() {
+
         return front;
     }
 
@@ -49,7 +52,7 @@ public class card {
      * @return the string on the back of the card
      */
     protected String getBack() {
-        return back;
+        return this.back;
     }
 
     /**
@@ -74,7 +77,7 @@ public class card {
      * @param newFront
      */
     protected void setFront(String newFront){
-        this.front = newFront;
+        front = newFront;
     }
 
     /**
@@ -83,7 +86,7 @@ public class card {
      * @param newBack
      */
     protected void setBack(String newBack){
-        this.back = newBack;
+        back = newBack;
     }
 
     /**
@@ -96,6 +99,5 @@ public class card {
     protected card(String front, String back) {
         this.front = front;
         this.back = back;
-
     }
 }

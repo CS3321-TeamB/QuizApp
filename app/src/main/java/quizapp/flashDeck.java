@@ -1,15 +1,12 @@
 package quizapp;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
-import java.io.Reader;
 import java.lang.reflect.Type;
 
 import java.nio.file.Files;
@@ -27,7 +24,8 @@ public class flashDeck{
     private int totalCards = 0;
     private boolean passStack = false;
     private String subject;
-    private ArrayList<card> cardStack;
+    ArrayList<card> cardStack;
+    private int deckIterator = 0;
 
     /*
     Default MAX size set to 100 for each stack, because
@@ -36,31 +34,41 @@ public class flashDeck{
      */
     private static final int STACKSIZE = 100;
 
-    //TODO documentation
+
+    protected flashDeck(String course){
+        subject = course;
+        cardStack = new ArrayList<card>(STACKSIZE);
+    }
+
+
+    protected void setIterator(int increment){
+        deckIterator += increment;
+    }
 
     protected int getTotalCards(){
         return totalCards;
     }
     protected String getSubject(){
-        return subject;
+        return this.subject;
     }
-    protected boolean getIsPass(){
-        return passStack;
+//    protected boolean getIsPass(){
+//        return passStack;
+//    }
+//    protected int getIterator(){return deckIterator;}
+//    /**
+//     * Default constructor, creates an empty stack of cards
+//     *  this is the name of the course for
+//     * which the user wishes to study for, thus naming the stack
+//     * Each stack will default initialize with 0 cards and not
+//     * be a passed card stack.
+//     */
+//    protected flashDeck(){
+//        cardStack = new ArrayList<card>(STACKSIZE);
+//    }
+
+    protected card getCard(int index){
+        return cardStack.get(index);
     }
-
-    /**
-     * Default constructor, creates an empty stack of cards
-     * @param course this is the name of the course for
-     * which the user wishes to study for, thus naming the stack
-     * Each stack will default initialize with 0 cards and not
-     * be a passed card stack.
-     */
-    protected flashDeck(String course){
-        this.subject = course;
-        cardStack = new ArrayList<>(STACKSIZE);
-    }
-
-
     /*may not need this method
      */
 
@@ -71,7 +79,7 @@ public class flashDeck{
      * @param passStack set to true
      */
     protected flashDeck(String course, boolean passStack){
-        this.subject = course;
+        subject = course;
         passStack = true;
         this.passStack = passStack;
         cardStack = new ArrayList<>(STACKSIZE);
@@ -79,11 +87,12 @@ public class flashDeck{
 
     /**
      * Method to add a flash card to the deck
-     * @param card a flash card with a front and
+     * newCard a flash card with a front and
      *             back value
      */
-    protected void addCard(card card){
-        cardStack.add(card);
+    protected void addCardToDeck(String front, String back){
+        card newCard = new card(front, back);
+        cardStack.add(newCard);
         totalCards +=1;
     }
 
@@ -100,6 +109,7 @@ public class flashDeck{
 
     }
 
+
     /**
      * Draw card. returns the card at the index supplied
      * This does not remove the card from the deck, it only
@@ -111,23 +121,18 @@ public class flashDeck{
         return cardStack.get(index);
     }
 
-    /**
-     * Shuffle method in case the user wishes to shuffle
-     * the stack of cards to change the order in which
-     * they are studying them
-     */
-    protected void shuffle(){
-        Collections.shuffle(cardStack);
-    }
 
-    public static void saveCardStack(String jsonFile, cardStack cardStack_obj) throws IOException{
-
+    public static void saveCardStack(String jsonFile, course course_obj) throws IOException{
         Gson gson = new Gson();
-
-        String jsonString = gson.toJson(cardStack_obj);
+        String jsonString = gson.toJson(course_obj);
+        File saveFolder = new File(System.getProperty("user.dir") + "/saves");
+        if (!saveFolder.exists()) {
+            saveFolder.mkdirs();
+        }
 
         try {
-            File cStackFile = new File(jsonFile);
+            String savePath = saveFolder + "/" + jsonFile;
+            File cStackFile = new File(savePath);
 
             FileWriter wr = new FileWriter(cStackFile);
             wr.write(jsonString);
@@ -138,16 +143,18 @@ public class flashDeck{
         }
     }
 
-    public static cardStack loadCardStack(String jsonFile) {
+    public static course loadCardStack(String jsonFile) {
         try {
+            File saveFolder = new File(System.getProperty("user.dir") + "/saves");
+            String savePath = saveFolder + "/" + jsonFile;
             //create Gson instance
             Gson gson = new Gson();
             //create a reader
-            Reader rd = Files.newBufferedReader(Paths.get(jsonFile));
+            Reader rd = Files.newBufferedReader(Paths.get(String.valueOf(savePath)));
             //set type for cardStack
-            Type cardStackType = new TypeToken<cardStack>(){}.getType();
+            Type cardStackType = new TypeToken<course>(){}.getType();
             //convert JSON string to cardStack object
-            cardStack cardStack_obj = gson.fromJson(rd, cardStackType);
+            course cardStack_obj = gson.fromJson(rd, cardStackType);
             //close reader
             rd.close();
 
@@ -159,4 +166,8 @@ public class flashDeck{
     }
 
 }
+
+
+
+
 
