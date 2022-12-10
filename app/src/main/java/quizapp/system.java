@@ -76,7 +76,7 @@ public class system {
      */
     protected static void deleteCard(String subject, card card){
         int index = getInstance().AllCourses.indexOf(system.getCourse(subject));
-        getInstance().AllCourses.get(index).removeCard(subject, card);
+        getInstance().AllCourses.get(index).removeCard(card);
     }
 
 
